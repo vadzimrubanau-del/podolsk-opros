@@ -16,6 +16,7 @@ const drafts = {}; // текст, который печатают прямо с�
 const timers = {};
 const saving = {};
 const hints = {}; // сообщения о загрузке файлов переживают перерисовку карточки
+const uploading = {}; // сколько файлов вопроса сейчас загружается
 
 const lsGet = (k) => { try { return localStorage.getItem(k) || ""; } catch { return ""; } };
 const lsSet = (k, v) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} };
@@ -133,6 +134,7 @@ async function approve(id, nameInput, errBox, btn) {
   const name = nameInput.value.trim().replace(/\s+/g, " ");
   const text = (drafts[id] ?? (state.answers[id] || {}).text ?? "").trim();
   errBox.textContent = "";
+  if (uploading[id]) { errBox.textContent = "Дождитесь окончания загрузки файлов, потом утверждайте."; return; }
   if (!text && !(state.files[id] || []).length) { errBox.textContent = "Сначала напишите ответ или прикрепите файл."; return; }
   if (name.split(" ").length < 2) { errBox.textContent = "Укажите имя и фамилию утверждающего, например: Иван Петров."; nameInput.focus(); return; }
   lsSet("opros.approver", name);
@@ -159,8 +161,10 @@ async function reopen(id) {
 async function upload(id, fileList) {
   const say = (t) => { hints[id] = t; const h = document.getElementById("hint-" + id); if (h) h.textContent = t; };
   const problems = [];
-  for (const f of [...fileList]) {
-    if (f.size > MAX_FILE) { problems.push(`«${f.name}» больше 50 МБ — сожмите фото или разбейте документ.`); continue; }
+  const list = [...fileList];
+  uploading[id] = (uploading[id] || 0) + list.length;
+  for (const f of list) {
+    if (f.size > MAX_FILE) { problems.push(`«${f.name}» больше 50 МБ — сожмите фото или разбейте документ.`); uploading[id]--; continue; }
     say(`Загружаю «${f.name}»…`);
     try {
       const up = await api("upload_url", { qid: id, name: f.name, size: f.size });
@@ -170,6 +174,8 @@ async function upload(id, fileList) {
       await refresh();
     } catch (e) {
       problems.push(e.message);
+    } finally {
+      uploading[id]--;
     }
   }
   say(problems.length ? problems.join(" ") : "Файлы прикреплены.");
