@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Опросник склада Подольск</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <style>body { margin: 0; } [hidden] { display: none !important; }</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <span class="eyebrow">РЦ Подольск · WMS · этап 1</span>
+      <h1>Опросник склада Подольск</h1>
+    </header>
+
+    <form class="login" id="login" hidden>
+      <label class="lbl" for="code">Код доступа</label>
+      <input id="code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX" required>
+      <p class="err" id="login-err" role="alert"></p>
+      <button class="btn primary" type="submit">Войти</button>
+      <p class="why">Код выдаёт руководитель склада. Без кода вопросы и ответы не видны.</p>
+    </form>
+
+    <main id="app" hidden>
+      <p class="lead">Ответы нужны, чтобы настроить программу склада под реальную работу. Каждый ответ утверждает ответственный сотрудник. После утверждения ответ считается принятым и идёт в работу.</p>
+      <ol class="steps">
+        <li>Напишите ответ в поле под вопросом. Он сохраняется сам.</li>
+        <li>Прикрепите файлы: схему, фото, таблицу Excel, документ — до 50 МБ.</li>
+        <li>Впишите имя и фамилию утверждающего и нажмите «Утвердить».</li>
+      </ol>
+
+      <section class="summary" aria-label="Сводка">
+        <div class="meter">
+          <b id="m-count">0 / 0</b>
+          <div class="bar" role="img" id="m-bar" aria-label="Прогресс"><i class="a" id="m-a"></i><i class="d" id="m-d"></i></div>
+        </div>
+        <div class="legend">
+          <span style="--c: var(--ok)">Утверждено <b id="m-ok">0</b></span>
+          <span style="--c: var(--mark)">Ждёт утверждения <b id="m-draft">0</b></span>
+          <span style="--c: var(--line)">Без ответа <b id="m-empty">0</b></span>
+          <span class="plain">Срочных (А) не закрыто: <b id="m-urg">0</b></span>
+        </div>
+        <div class="filters" role="group" aria-label="Фильтр">
+          <button class="chip" data-f="all" aria-pressed="true">Все<span class="n" id="f-all"></span></button>
+          <button class="chip" data-f="empty" aria-pressed="false">Без ответа<span class="n" id="f-empty"></span></button>
+          <button class="chip" data-f="draft" aria-pressed="false">Ждут утверждения<span class="n" id="f-draft"></span></button>
+          <button class="chip" data-f="approved" aria-pressed="false">Утверждено<span class="n" id="f-approved"></span></button>
+          <button class="chip" data-f="urgent" aria-pressed="false">Срочные (А)<span class="n" id="f-urgent"></span></button>
+        </div>
+        <div class="toolbar"><span id="synced"></span><button class="btn small" type="button" id="logout">Выйти</button></div>
+      </section>
+
+      <div id="status"></div>
+
+      <section class="decided" id="decided" hidden></section>
+
+      <div id="list"></div>
+    </main>
+  </div>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
