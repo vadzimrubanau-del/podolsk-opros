@@ -75,8 +75,16 @@ function qState(id) {
 
 // ---------- Загрузка и обновление ----------
 
+// Обновления идут и по таймеру, и после каждого действия. Ответы могут прийти не по порядку —
+// применяем только ответ на самый поздний запрос, иначе на экране мелькает устаревшее состояние.
+let refreshSeq = 0;
+let appliedSeq = 0;
+
 async function refresh() {
+  const seq = ++refreshSeq;
   const data = await api("state");
+  if (seq < appliedSeq) return;
+  appliedSeq = seq;
   state.questions = data.questions;
   state.decided = data.decided || [];
   state.groupWho = data.groupWho || {};
