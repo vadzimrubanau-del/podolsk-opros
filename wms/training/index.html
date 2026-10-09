@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Письмо сотрудникам склада Подольск и пошаговые экраны ТСД: вход, приёмка, размещение, работа без Wi-Fi, перемещение, инвентаризация.">
+<meta name="color-scheme" content="light dark">
+<title>Учебник ТСД Подольск</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Макет: памятка из папки смены. Сверху письмо, дальше операции в порядке пути товара; шаг = экран ТСД + подпись. */
+:root {
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --ink: #142033;
+  --muted: #586478;
+  --line: #d5dbe4;
+  --brand: #1d3557;      /* цвет шапки ТСД — из самой программы */
+  --brand-ink: #ffffff;
+  --brand-soft: #e4ebf5;
+  --signal: #b45f00;     /* «ждёт отправки», важные пометки */
+  --signal-soft: #fff1d9;
+  --ok: #157f3b;
+  --ok-soft: #e1f3e7;
+  --bad: #b42318;
+  --bad-soft: #fde7e5;
+  --bezel: #1b2433;
+  --f-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1520; --surface: #161f2d; --ink: #e6ebf2; --muted: #9ba7b9; --line: #2a3648;
+    --brand: #9cbbe6; --brand-ink: #0e1520; --brand-soft: #1d2a3d;
+    --signal: #f2b04a; --signal-soft: #33260f; --ok: #5fcf8a; --ok-soft: #12291c;
+    --bad: #f08b80; --bad-soft: #351816; --bezel: #04070c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1520; --surface: #161f2d; --ink: #e6ebf2; --muted: #9ba7b9; --line: #2a3648;
+  --brand: #9cbbe6; --brand-ink: #0e1520; --brand-soft: #1d2a3d;
+  --signal: #f2b04a; --signal-soft: #33260f; --ok: #5fcf8a; --ok-soft: #12291c;
+  --bad: #f08b80; --bad-soft: #351816; --bezel: #04070c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 16px/1.55 var(--f-body);
+  padding-inline: 16px; padding-block: 0 64px;
+}
+.wrap { max-width: 1160px; margin: 0 auto; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--brand); }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+.mono { font-family: var(--f-mono); font-weight: 500; }
+
+/* ---------- шапка ---------- */
+.top { padding-block: 40px 28px; display: grid; gap: 14px; }
+.eyebrow { font: 600 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 700 clamp(30px, 5vw, 48px)/1.1 var(--f-display); letter-spacing: -.01em; color: var(--brand); }
+.lead { max-width: 64ch; font-size: 18px; color: var(--muted); }
+.back { font: 600 15px var(--f-body); color: var(--brand); text-decoration: none; justify-self: start; }
+.back:hover { text-decoration: underline; }
+nav.toc { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 6px; }
+nav.toc a {
+  text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; padding: 7px 14px; font-weight: 500; font-size: 15px;
+}
+nav.toc a:hover { border-color: var(--brand); }
+
+/* ---------- письмо ---------- */
+.letter {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0; overflow: hidden;
+}
+.letter-body { padding: 28px 32px; display: grid; gap: 14px; max-width: 72ch; min-width: 0; }
+.letter-head { display: grid; gap: 4px; padding-bottom: 14px; border-bottom: 1px dashed var(--line); }
+.letter-head .k { font: 600 12px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.letter-head .subj { font: 600 20px/1.3 var(--f-body); }
+.letter ul, .letter ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+.letter li::marker { color: var(--brand); font-weight: 700; }
+.letter h3 { font: 600 16px var(--f-body); }
+.letter-side {
+  background: var(--brand-soft); padding: 24px; display: flex; flex-direction: column; gap: 14px; min-width: 0;
+  border-left: 1px solid var(--line);
+}
+.letter-side p { font-size: 15px; color: var(--muted); }
+.side-stick { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); display: grid; gap: 14px; }
+.btn {
+  font: 600 16px var(--f-body); border-radius: 12px; padding: 13px 18px; cursor: pointer;
+  background: var(--brand); color: var(--brand-ink); border: 0; min-height: 52px;
+}
+.btn:hover { filter: brightness(1.08); }
+.copied { font-size: 14px; color: var(--ok); font-weight: 600; min-height: 1.4em; }
+
+/* ---------- код ячейки ---------- */
+.code-card {
+  margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 22px 24px; display: grid; gap: 16px;
+}
+.code-card h2 { font: 600 18px var(--f-body); }
+.code { display: flex; flex-wrap: wrap; gap: 6px; align-items: stretch; }
+.code .part { display: grid; gap: 6px; justify-items: center; }
+.code .part b {
+  font: 700 clamp(26px, 5vw, 40px)/1 var(--f-mono); background: var(--bezel); color: #ffffff;
+  padding: 10px 14px; border-radius: 8px; min-width: 2.2ch; text-align: center;
+}
+.code .dash { font: 700 clamp(26px, 5vw, 40px)/1 var(--f-mono); color: var(--muted); padding-top: 10px; }
+.code .part small { font-size: 13px; color: var(--muted); text-align: center; line-height: 1.25; }
+
+/* ---------- разделы ---------- */
+section.op { padding-top: 56px; display: grid; gap: 18px; scroll-margin-top: 12px; }
+.op-head { display: grid; gap: 6px; max-width: 70ch; }
+.op-head h2 { font: 700 clamp(22px, 3.4vw, 30px)/1.15 var(--f-display); color: var(--brand); }
+.path { font: 500 13px var(--f-mono); color: var(--muted); }
+.op-head p { color: var(--muted); }
+
+.steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px 18px; align-items: start; }
+.step { display: grid; gap: 12px; margin: 0; min-width: 0; }
+.phone {
+  background: var(--bezel); border-radius: 26px; padding: 9px; width: 100%; max-width: 290px; justify-self: center;
+}
+.phone .screen { border-radius: 18px; overflow: hidden auto; max-height: 560px; background: #f4f6f8; }
+.phone img { display: block; width: 100%; height: auto; }
+.step figcaption { display: grid; gap: 4px; }
+.step .n {
+  font: 700 13px var(--f-mono); color: var(--brand-ink); background: var(--brand);
+  border-radius: 6px; padding: 2px 7px; justify-self: start; font-variant-numeric: tabular-nums;
+}
+.step h3 { font: 600 17px/1.3 var(--f-body); }
+.step p { font-size: 15px; color: var(--muted); }
+.step .scroll-hint { font: 500 12px var(--f-mono); color: var(--muted); }
+.tip {
+  background: var(--signal-soft); border-radius: 10px; padding: 12px 14px; font-size: 15px; max-width: 80ch;
+}
+.tip b { color: var(--signal); }
+
+/* значок очереди — как в шапке ТСД */
+.badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.badge-row { display: flex; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.qb { font: 700 16px var(--f-mono); border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
+.qb.ok { background: #3a4a63; color: #ffffff; }
+.qb.wait { background: #f59e0b; color: #111111; }
+.qb.bad { background: #b42318; color: #ffffff; }
+.badge-row p { font-size: 15px; }
+
+/* компьютер старшего */
+.desk { display: grid; gap: 22px; }
+.desk figure { margin: 0; display: grid; gap: 8px; min-width: 0; }
+.desk .monitor { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.desk img { display: block; width: 100%; height: auto; }
+.desk figcaption { font-size: 15px; color: var(--muted); max-width: 80ch; }
+
+/* что делать, если */
+.trouble { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.trow { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 16px; padding: 14px 20px; border-top: 1px solid var(--line); }
+.trow:first-child { border-top: 0; }
+.trow .say { font-weight: 600; }
+.trow .say code { font: 500 14px var(--f-mono); background: var(--bad-soft); color: var(--bad); padding: 1px 6px; border-radius: 5px; }
+.trow .do { color: var(--muted); }
+.thead { background: var(--brand-soft); font: 600 12px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80ch; }
+
+@media (max-width: 760px) {
+  .letter { grid-template-columns: minmax(0, 1fr); }
+  .letter-side { border-left: 0; border-top: 1px solid var(--line); }
+  .letter-body { padding: 22px 18px; }
+  .trow { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .phone .screen { max-height: 520px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  nav.toc a, .btn { transition: border-color .15s, filter .15s; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="back" href="../">← О программе</a>
+    <span class="eyebrow">Склад Подольск · программа учёта на ТСД</span>
+    <h1>Как работать на ТСД</h1>
+    <p class="lead">Письмо для всех сотрудников и пошаговые экраны: приёмка, размещение, перемещение, инвентаризация. Экраны сняты на учебной приёмке — так их и увидите на своём ТСД.</p>
+    <nav class="toc" aria-label="Разделы">
+      <a href="#letter">Письмо</a>
+      <a href="#login">Вход</a>
+      <a href="#receive">Приёмка</a>
+      <a href="#putaway">Размещение</a>
+      <a href="#offline">Без Wi-Fi</a>
+      <a href="#move">Перемещение</a>
+      <a href="#inventory">Инвентаризация</a>
+      <a href="#endshift">Конец смены</a>
+      <a href="#trouble">Если что-то не так</a>
+      <a href="#desk">Компьютер старшего</a>
+    </nav>
+  </header>
+
+  <!-- ================= ПИСЬМО ================= -->
+  <section id="letter" class="letter" aria-label="Письмо сотрудникам">
+    <div class="letter-body" id="letter-text">
+      <div class="letter-head">
+        <span class="k">Тема</span>
+        <span class="subj">Новая программа учёта на складе: что она умеет и что нужно от каждого</span>
+      </div>
+      <p>Коллеги, добрый день!</p>
+      <p>На складе Подольск запускаем свою программу учёта на ТСД. Её задача простая: каждое движение товара делается сканом и сразу записывается. Тогда остатки в программе совпадают с тем, что лежит на полках, и товар не приходится искать по всему складу.</p>
+      <h3>Что программа умеет уже сейчас</h3>
+      <ul>
+        <li><b>Приёмка.</b> Поставки из МойСклада появляются на ТСД сами, раз в 5 минут, поставки Альнилама — сверху. Принимаем коробами: сканируете товар, вводите число коробов, штуки программа считает сама. Даты с упаковки («годен до» и дата изготовления) вводятся сразу, на каждую партию.</li>
+        <li><b>Размещение.</b> После закрытия приёмки появляются задачи. ТСД подсказывает ячейку: сначала ту, где уже лежит эта партия, потом свободную по маршруту. Положить можно и в другую ячейку, если в подсказанной нет места, — главное отсканировать этикетку той ячейки, куда положили.</li>
+        <li><b>Перемещение и карантин.</b> Из ячейки в ячейку — тремя сканами. Брак, пересорт, проблемы с «Честным знаком» — в зону I с причиной.</li>
+        <li><b>Инвентаризация.</b> Пересчёт ячеек по маршруту: коробами, целой паллетой (слои × коробы) или поштучно. Учётного количества на ТСД не видно: считаем то, что лежит.</li>
+        <li><b>Работа без Wi-Fi.</b> Пропала связь — работайте дальше. Операции копятся в ТСД и уходят сами, когда сеть вернётся.</li>
+        <li><b>Карта склада у старшего смены.</b> На компьютере видно, что и где лежит, сроки годности и кто когда двигал товар. Списание просрочки и брака делает старший смены.</li>
+      </ul>
+      <h3>Что нужно от каждого</h3>
+      <ol>
+        <li>Входите под своим кодом и PIN. PIN никому не сообщайте: все операции записываются на ваше имя.</li>
+        <li>Любое движение товара — только со сканом. Если переложили без ТСД, для программы товар остался на старом месте.</li>
+        <li>Сканируйте этикетку той ячейки, куда реально положили товар.</li>
+        <li>Если ТСД показал ошибку, не повторяйте операцию наугад. Позовите старшего смены.</li>
+        <li>В конце смены нажмите «Завершить смену». Перед этим проверьте, что в правом верхнем углу горит ✓: значит, всё отправлено.</li>
+      </ol>
+      <p>Обучение — по памятке с экранами ТСД, её покажет старший смены. Подробные инструкции по каждой операции подготовим позже. Вопросы — старшему смены.</p>
+      <p>Руководство РЦ Подольск</p>
+    </div>
+    <aside class="letter-side">
+      <div class="side-stick">
+        <p>Текст можно вставить в рабочий чат или почту. Тема письма копируется вместе с текстом.</p>
+        <button class="btn" id="copy-letter" type="button">Скопировать письмо</button>
+        <span class="copied" id="copied" role="status" aria-live="polite"></span>
+      </div>
+    </aside>
+  </section>
+
+  <div class="code-card" aria-label="Как читать код ячейки">
+    <h2>Как читать этикетку ячейки</h2>
+    <div class="code">
+      <div class="part"><b>B</b><small>зона</small></div><span class="dash">-</span>
+      <div class="part"><b>02</b><small>ряд</small></div><span class="dash">-</span>
+      <div class="part"><b>01</b><small>секция</small></div><span class="dash">-</span>
+      <div class="part"><b>01</b><small>ярус<br>1 = низ</small></div><span class="dash">-</span>
+      <div class="part"><b>A</b><small>место</small></div>
+    </div>
+    <p class="path">ТСД пишет то же словами: «ряд 2 · секция 1 · низ (1 ярус) · место A». В зоне B нижний ярус — отбор, выше — резерв.</p>
+  </div>
+
+  <!-- ================= ВХОД ================= -->
+  <section id="login" class="op">
+    <div class="op-head">
+      <span class="path">Иконка «Склад Подольск» на главном экране ТСД</span>
+      <h2>Вход в смену</h2>
+      <p>ТСД уже привязан к складу. Каждый входит под собой: так видно, кто что сделал.</p>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/01-login-badge.png" alt="Экран входа: поле «Отсканируйте бейдж»" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Отсканируйте свой бейдж</h3><p>Нет бейджа — нажмите ⌨ и наберите код сотрудника.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/02-login-pin.png" alt="Ввод PIN на экранной клавиатуре" loading="lazy"></div></div>
+        <figcaption><span class="n">2</span><h3>Введите PIN и нажмите «Войти»</h3><p>PIN — 4–6 цифр. После пяти ошибок вход блокируется на 10 минут.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/03-menu.png" alt="Меню операций" loading="lazy"></div></div>
+        <figcaption><span class="n">3</span><h3>Выберите операцию</h3><p>Справа вверху значок очереди. ✓ — всё, что вы сделали, уже записано на сервере.</p></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= ПРИЁМКА ================= -->
+  <section id="receive" class="op">
+    <div class="op-head">
+      <span class="path">Меню → Приёмка</span>
+      <h2>Приёмка поставки</h2>
+      <p>Пример — учебная поставка УЧ-001 от Альнилама: три товара, принимаем коробами.</p>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/04-receive-list.png" alt="Список ожидаемых поставок" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Найдите поставку</h3><p>Список обновляется сам. Альнилам — сверху. Пометка «в МойСкладе уже проведена» не отменяет приёмку: товар всё равно принимаем сканом.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/05-receive-open.png" alt="Поставка открыта, ТСД просит ячейку приёмки" loading="lazy"></div></div>
+        <figcaption><span class="n">2</span><h3>Отсканируйте ячейку приёмки</h3><p>Этикетка места в зоне A, куда выгружаете, например <span class="mono">A-01</span>. ТСД её запомнит.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/06-receive-item.png" alt="Карточка товара: коробами по 12 шт" loading="lazy"></div></div>
+        <figcaption><span class="n">3</span><h3>Отсканируйте товар</h3><p>Режим «Коробами по 12 шт» включается сам, если кратность короба известна. Целые короба — коробами, вскрытый — «Штуками».</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/07-receive-qtypad.png" alt="Клавиатура количества: 20 коробов" loading="lazy"></div></div>
+        <figcaption><span class="n">4</span><h3>Наберите число коробов</h3><p>Нажмите на число между − и + и наберите на экранной клавиатуре. Первая цифра заменяет старое значение. «Готово».</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/08-receive-dates.png" alt="Даты с упаковки: годен до и дата изготовления" loading="lazy"></div></div>
+        <figcaption><span class="n">5</span><h3>Введите даты с короба</h3><p>«Годен до» обязателен. Если на коробе дата изготовления и срок в месяцах, введите их: «годен до» посчитается сам. «мес/год» — когда день не указан.</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/09-receive-accepted.png" alt="Товар принят, план/факт обновлён" loading="lazy"></div></div>
+        <figcaption><span class="n">6</span><h3>Нажмите «Принять 240 шт (20 кор.)»</h3><p>Строка в «План / факт» обновится. Следующий товар — снова скан.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/10-receive-plan-fact.png" alt="Все строки поставки приняты" loading="lazy"></div></div>
+        <figcaption><span class="n">7</span><h3>Сверьте план и факт</h3><p>Зелёные строки — принято ровно по плану. Больше или меньше плана — программа покажет.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/11-receive-closed.png" alt="Приёмка закрыта, созданы задачи размещения" loading="lazy"></div></div>
+        <figcaption><span class="n">8</span><h3>Закройте приёмку</h3><p>«Закрыть приёмку» внизу экрана. Расхождения уходят в акт, на принятый товар создаются задачи размещения.</p></figcaption>
+      </figure>
+    </div>
+    <p class="tip"><b>Важно.</b> Один штрихкод бывает у товара и у него же в упаковке для маркетплейса (артикул с <span class="mono">_T2</span>). В приёмке ТСД выбирает карточку по составу поставки. Если спросит «Какой товар?» — посмотрите на упаковку.</p>
+  </section>
+
+  <!-- ================= РАЗМЕЩЕНИЕ ================= -->
+  <section id="putaway" class="op">
+    <div class="op-head">
+      <span class="path">Меню → Размещение</span>
+      <h2>Размещение с подсказкой «куда положить»</h2>
+      <p>ТСД предлагает ячейки: сначала ту, где уже лежит эта партия, потом тот же товар с другим сроком, потом свободные по маршруту — ряд, секция, ярус снизу вверх.</p>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/12-putaway-list.png" alt="Список задач размещения" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Выберите задачу</h3><p>В строке — артикул, сколько осталось разместить и откуда брать.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/13-putaway-suggest.png" alt="Подсказка: первая ячейка с той же партией" loading="lazy"></div></div>
+        <figcaption><span class="n">2</span><h3>Посмотрите, куда положить</h3><p>Зелёная — первая подсказка. Здесь в <span class="mono">B-02-01-01-A</span> уже лежит эта партия, докладываем к ней.</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/14-putaway-cell.png" alt="Ячейка отсканирована по подсказке" loading="lazy"></div></div>
+        <figcaption><span class="n">3</span><h3>Скан товара, потом скан ячейки</h3><p>«✓ по подсказке» — ячейка из списка. Проверьте количество и нажмите «Разместить».</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/15-putaway-done.png" alt="Размещение записано" loading="lazy"></div></div>
+        <figcaption><span class="n">4</span><h3>Готово</h3><p>«Записано», задача ушла из списка. Разместили часть — остаток задачи останется в списке.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/16-putaway-suggest-free.png" alt="Подсказка: свободные ячейки отбора" loading="lazy"></div></div>
+        <figcaption><span class="n">5</span><h3>Новый товар — свободная ячейка</h3><p>Товара на складе ещё нет: ТСД предлагает свободные ячейки отбора по маршруту. Нет места — кладите в другую ячейку и сканируйте её этикетку, ТСД отметит «не по подсказке».</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= БЕЗ WI-FI ================= -->
+  <section id="offline" class="op">
+    <div class="op-head">
+      <span class="path">Значок справа вверху</span>
+      <h2>Если пропал Wi-Fi</h2>
+      <p>Работу не останавливаем. ТСД складывает операции в очередь и отправляет их, когда связь вернётся.</p>
+    </div>
+    <div class="badges">
+      <div class="badge-row"><span class="qb ok">● ✓</span><p>Всё отправлено.</p></div>
+      <div class="badge-row"><span class="qb wait">● ↑ 1</span><p>Одна операция ждёт сети. Уйдёт сама.</p></div>
+      <div class="badge-row"><span class="qb bad">● ! 1</span><p>Сервер не принял операцию. Позовите старшего смены.</p></div>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/17-offline-putaway.png" alt="Размещение без сети: подсказка недоступна" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Без сети подсказки нет</h3><p>Отсканируйте любую ячейку хранения, где есть место. Остальное — как обычно.</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/18-offline-queued.png" alt="Значок очереди: ↑ 1" loading="lazy"></div></div>
+        <figcaption><span class="n">2</span><h3>Значок стал оранжевым «↑ 1»</h3><p>Операция сохранена в ТСД и ждёт отправки. Повторять её не нужно.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/19-offline-queue.png" alt="Очередь операций на ТСД" loading="lazy"></div></div>
+        <figcaption><span class="n">3</span><h3>Нажмите на значок — увидите очередь</h3><p>Не выключайте ТСД и не завершайте смену, пока очередь не ушла.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/20-online-sent.png" alt="Связь вернулась, значок ✓" loading="lazy"></div></div>
+        <figcaption><span class="n">4</span><h3>Сеть вернулась — снова ✓</h3><p>Операции ушли сами. «Отправить сейчас» в очереди ускоряет отправку.</p></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= ПЕРЕМЕЩЕНИЕ ================= -->
+  <section id="move" class="op">
+    <div class="op-head">
+      <span class="path">Меню → Перемещение</span>
+      <h2>Перемещение и карантин</h2>
+      <p>Три скана: ячейка «откуда», товар, ячейка «куда». Потом количество и «Переместить».</p>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/21-move-confirm.png" alt="Перемещение: откуда, товар, срок, куда" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Проверьте и нажмите «Переместить»</h3><p>Если у товара в ячейке несколько сроков, ТСД попросит выбрать партию: первой брать ближайший срок. Галочка «Карантин» — для брака, пересорта, проблем с ЧЗ; везти только в зону I и указать причину.</p></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= ИНВЕНТАРИЗАЦИЯ ================= -->
+  <section id="inventory" class="op">
+    <div class="op-head">
+      <span class="path">Меню → Инвентаризация</span>
+      <h2>Инвентаризация ячеек</h2>
+      <p>Счёт слепой: ТСД не показывает, сколько должно быть. Считаем то, что лежит, со сроками с упаковки.</p>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/22-inv-list.png" alt="Список инвентаризаций" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Откройте задание</h3><p>Номер ИНВ и сколько ячеек вам осталось. Ряды, закреплённые за вами, идут первыми.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/23-inv-cell.png" alt="Следующая ячейка маршрута" loading="lazy"></div></div>
+        <figcaption><span class="n">2</span><h3>Подойдите и отсканируйте этикетку ячейки</h3><p>ТСД ведёт по маршруту, но можно начать с любой ячейки этого задания.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/24-inv-counting.png" alt="Счёт ячейки: выбор режима" loading="lazy"></div></div>
+        <figcaption><span class="n">3</span><h3>Выберите, как считать</h3><p>«Скан → количество» — для коробов и паллет. «Каждый скан +1» — для штучного товара. Пустая ячейка — «Ячейка пуста».</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/25-inv-dates.png" alt="Даты с упаковки при пересчёте" loading="lazy"></div></div>
+        <figcaption><span class="n">4</span><h3>Скан товара → даты</h3><p>Кнопка «до 31.01.2028» — срок, который уже встречался у этого товара. Даты на упаковке нет — «Нет даты на упаковке».</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/26-inv-pallet.png" alt="Счёт целой паллеты: слои × коробы" loading="lazy"></div></div>
+        <figcaption><span class="n">5</span><h3>Целая паллета — слоями</h3><p>«Паллета» → слоёв × коробов в слое. Здесь 6 × 5 = 30 коробов по 18 шт = 540 шт.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/27-inv-lines.png" alt="Строка счёта добавлена" loading="lazy"></div></div>
+        <figcaption><span class="n">6</span><h3>Проверьте строку</h3><p>Ещё товар в ячейке — сканируйте дальше. Тот же товар с другим сроком — отдельная строка. Всё посчитали — «Ячейка посчитана».</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/28-inv-next.png" alt="Ячейка записана, следующая по маршруту" loading="lazy"></div></div>
+        <figcaption><span class="n">7</span><h3>Следующая ячейка</h3><p>«Записано» — ТСД сразу показывает следующую ячейку. Не можете посчитать (заставлена, нет доступа) — «Не могу посчитать — пропустить» с причиной.</p></figcaption>
+      </figure>
+    </div>
+    <p class="tip"><b>Не знаете товар?</b> Штрихкода нет в каталоге — кнопка «Неизвестный товар»: отсканируйте что есть, опишите товар и количество. Старший смены разберёт его на компьютере.</p>
+  </section>
+
+  <!-- ================= КОНЕЦ СМЕНЫ ================= -->
+  <section id="endshift" class="op">
+    <div class="op-head">
+      <span class="path">Меню → внизу</span>
+      <h2>Конец смены</h2>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/29-menu-logout.png" alt="Меню с кнопкой «Завершить смену»" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Проверьте ✓ и завершите смену</h3><p>Значок справа вверху — ✓. Потом «Завершить смену». ТСД готов для следующего сотрудника: ваш недосчитанный черновик ему не достанется.</p></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= ЕСЛИ ЧТО-ТО НЕ ТАК ================= -->
+  <section id="trouble" class="op">
+    <div class="op-head">
+      <h2>Если что-то не так</h2>
+      <p>Операции в программе не удаляются. Ошибку исправляют новой операцией, поэтому сначала спросите старшего смены.</p>
+    </div>
+    <div class="trouble">
+      <div class="trow thead"><span>ТСД показывает</span><span>Что делать</span></div>
+      <div class="trow"><span class="say"><code>Товар не найден</code></span><span class="do">Штрихкода нет в каталоге. В инвентаризации — «Неизвестный товар». В приёмке и размещении — отложите товар и позовите старшего.</span></div>
+      <div class="trow"><span class="say"><code>Это не тот товар, что в задаче</code></span><span class="do">Отсканирован другой товар. Проверьте артикул на упаковке и в задаче.</span></div>
+      <div class="trow"><span class="say"><code>Ячейку … сейчас считает …</code></span><span class="do">Идёт инвентаризация этой ячейки. Подождите конца пересчёта или положите в другую ячейку.</span></div>
+      <div class="trow"><span class="say"><code>Похоже на скан штрихкода</code></span><span class="do">Скан попал в окно количества. Количество не изменилось: закройте окно и сканируйте, а количество набирайте цифрами.</span></div>
+      <div class="trow"><span class="say"><code>Нет связи с сервером</code></span><span class="do">Работайте дальше, операции в очереди. Не выключайте ТСД и не завершайте смену, пока значок не станет ✓.</span></div>
+      <div class="trow"><span class="say">Значок <code>! 1</code></span><span class="do">Сервер не принял операцию. Откройте очередь, прочитайте причину и позовите старшего смены.</span></div>
+      <div class="trow"><span class="say">Ошиблись в количестве</span><span class="do">До отправки — кнопки − и + или нажмите на число. После «Записано» — скажите старшему: он исправит перемещением или пересчётом.</span></div>
+      <div class="trow"><span class="say">Сканер не читает этикетку</span><span class="do">Нажмите ⌨ рядом с полем и наберите код вручную. Повреждённую этикетку покажите старшему для перепечатки.</span></div>
+    </div>
+  </section>
+
+  <!-- ================= КОМПЬЮТЕР ================= -->
+  <section id="desk" class="op">
+    <div class="op-head">
+      <span class="path">Компьютер старшего смены</span>
+      <h2>Что видит старший смены</h2>
+      <p>Всё, что сделано на ТСД, сразу видно на компьютере.</p>
+    </div>
+    <div class="desk">
+      <figure>
+        <div class="monitor"><img src="shots/30-desk-warehouse.png" alt="Экран «Склад»: карта зоны B и карточка ячейки" loading="lazy"></div>
+        <figcaption>«Склад»: карта зоны, занятые ячейки, сроки. Клик по ячейке — что лежит, до какого срока, кто и когда положил. Вверху поиск по артикулу или штрихкоду и панель «Сроки».</figcaption>
+      </figure>
+      <figure>
+        <div class="monitor"><img src="shots/31-desk-inventory.png" alt="Экран «Инвентаризация» у старшего смены" loading="lazy"></div>
+        <figcaption>«Инвентаризация»: сколько посчитано, кто какие ряды считает, расхождения и сверка, проведение. Неизвестный товар старший привязывает к карточке здесь же.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <footer>
+    Экраны сняты на учебной базе: товары настоящие, а поставка УЧ-001 и количества — учебные. Учебные операции в рабочий учёт не попали.
+  </footer>
+</div>
+
+<script>
+(function () {
+  var btn = document.getElementById('copy-letter');
+  var out = document.getElementById('copied');
+  var src = document.getElementById('letter-text');
+
+  // Письмо обычным текстом: тема, абзацы, списки с маркерами и номерами.
+  function letterText() {
+    var parts = ['Тема: ' + src.querySelector('.subj').textContent.trim(), ''];
+    Array.prototype.forEach.call(src.children, function (el) {
+      if (el.classList.contains('letter-head')) return;
+      if (el.tagName === 'UL' || el.tagName === 'OL') {
+        Array.prototype.forEach.call(el.children, function (li, i) {
+          parts.push((el.tagName === 'OL' ? (i + 1) + '. ' : '• ') + li.textContent.replace(/\s+/g, ' ').trim());
+        });
+        parts.push('');
+      } else {
+        parts.push(el.textContent.replace(/\s+/g, ' ').trim());
+        if (el.tagName !== 'H3') parts.push('');
+      }
+    });
+    return parts.join('\n').trim();
+  }
+
+  function selectLetter() {
+    var range = document.createRange();
+    range.selectNodeContents(src);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  btn.addEventListener('click', function () {
+    var text = letterText();
+    var done = function () { out.textContent = 'Письмо скопировано'; };
+    var fallback = function () { selectLetter(); out.textContent = 'Текст выделен — нажмите Ctrl+C'; };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else {
+        fallback();
+      }
+    } catch (e) {
+      fallback();
+    }
+  });
+})();
+</script>
+</body>
+</html>

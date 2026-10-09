@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Программа учёта склада Подольск: что она делает, какие блоки уже работают и как она устроена.">
+<meta name="color-scheme" content="light dark">
+<title>Программа учёта склада Подольск</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Макет: визитка программы в стиле учебника. Сверху суть и цели, потом блоки со статусом, потом устройство и хронология. */
+:root {
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --ink: #142033;
+  --muted: #586478;
+  --line: #d5dbe4;
+  --brand: #1d3557;      /* цвет шапки ТСД — из самой программы */
+  --brand-ink: #ffffff;
+  --brand-soft: #e4ebf5;
+  --signal: #b45f00;
+  --signal-soft: #fff1d9;
+  --ok: #157f3b;
+  --ok-soft: #e1f3e7;
+  --bezel: #1b2433;
+  --f-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1520; --surface: #161f2d; --ink: #e6ebf2; --muted: #9ba7b9; --line: #2a3648;
+    --brand: #9cbbe6; --brand-ink: #0e1520; --brand-soft: #1d2a3d;
+    --signal: #f2b04a; --signal-soft: #33260f; --ok: #5fcf8a; --ok-soft: #12291c; --bezel: #04070c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1520; --surface: #161f2d; --ink: #e6ebf2; --muted: #9ba7b9; --line: #2a3648;
+  --brand: #9cbbe6; --brand-ink: #0e1520; --brand-soft: #1d2a3d;
+  --signal: #f2b04a; --signal-soft: #33260f; --ok: #5fcf8a; --ok-soft: #12291c; --bezel: #04070c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 16px/1.55 var(--f-body);
+  padding-inline: 16px; padding-block: 0 64px;
+}
+.wrap { max-width: 1160px; margin: 0 auto; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--brand); }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+.mono { font-family: var(--f-mono); font-weight: 500; }
+
+/* ---------- шапка ---------- */
+.top { padding-block: 44px 28px; display: grid; gap: 16px; }
+.eyebrow { font: 600 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 700 clamp(30px, 5.2vw, 52px)/1.08 var(--f-display); letter-spacing: -.01em; color: var(--brand); max-width: 18ch; }
+.lead { max-width: 62ch; font-size: 19px; color: var(--muted); }
+.lead b { color: var(--ink); font-weight: 600; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
+.btn {
+  display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; border-radius: 12px;
+  font: 600 16px var(--f-body); text-decoration: none;
+}
+.btn.primary { background: var(--brand); color: var(--brand-ink); }
+.btn.ghost { border: 1px solid var(--line); color: var(--ink); background: var(--surface); }
+.btn:hover { filter: brightness(1.08); }
+nav.toc { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 8px; }
+nav.toc a {
+  text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; padding: 7px 14px; font-weight: 500; font-size: 15px;
+}
+nav.toc a:hover { border-color: var(--brand); }
+
+/* ---------- разделы ---------- */
+section { padding-top: 56px; display: grid; gap: 20px; scroll-margin-top: 12px; }
+.head { display: grid; gap: 6px; max-width: 72ch; }
+.head h2 { font: 700 clamp(22px, 3.4vw, 30px)/1.15 var(--f-display); color: var(--brand); }
+.head p { color: var(--muted); }
+.kicker { font: 500 13px var(--f-mono); color: var(--muted); }
+
+/* суть: текст + цели */
+.about { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; align-items: start; }
+.prose { display: grid; gap: 14px; max-width: 66ch; min-width: 0; }
+.prose p { font-size: 17px; }
+.goals { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; display: grid; gap: 12px; min-width: 0; }
+.goals h3 { font: 600 16px var(--f-body); }
+.goal { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: baseline; padding-top: 10px; border-top: 1px dashed var(--line); }
+.goal span { color: var(--muted); font-size: 15px; }
+.goal b { font: 700 18px var(--f-mono); font-variant-numeric: tabular-nums; color: var(--brand); white-space: nowrap; }
+.goals small { color: var(--muted); font-size: 13px; }
+
+.principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.principle { border-left: 3px solid var(--brand); padding: 4px 0 4px 14px; display: grid; gap: 4px; }
+.principle h3 { font: 600 17px var(--f-body); }
+.principle p { color: var(--muted); font-size: 15px; }
+
+/* блоки со статусом */
+.legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 14px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.blocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.block {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 16px 18px; display: grid; gap: 8px; align-content: start; min-width: 0;
+}
+.block-top { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; justify-content: space-between; }
+.block h3 { font: 600 17px/1.3 var(--f-body); }
+.block p { color: var(--muted); font-size: 15px; }
+.where { font: 500 12px var(--f-mono); color: var(--muted); letter-spacing: .02em; }
+.st { font: 600 12px/1 var(--f-mono); border-radius: 999px; padding: 5px 10px; white-space: nowrap; }
+.st.on { background: var(--ok-soft); color: var(--ok); }
+.st.wait { background: var(--signal-soft); color: var(--signal); }
+.st.plan { border: 1px dashed var(--line); color: var(--muted); }
+.block.planned { background: transparent; border-style: dashed; }
+.subhead { font: 600 13px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 8px; }
+.blocks.next { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+/* схема */
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; overflow-x: auto; }
+.flow { display: grid; grid-template-columns: repeat(5, minmax(0, auto)); align-items: center; gap: 10px 8px; min-width: 640px; }
+.node { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--bg); display: grid; gap: 2px; }
+.node b { font: 600 15px var(--f-body); }
+.node small { color: var(--muted); font-size: 13px; line-height: 1.35; }
+.node.core { border-color: var(--brand); background: var(--brand-soft); }
+.arrow { font: 700 18px var(--f-mono); color: var(--muted); text-align: center; }
+.span2 { grid-row: span 2; }
+.diagram p { color: var(--muted); font-size: 14px; padding-top: 14px; }
+
+.tbl-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+table { border-collapse: collapse; width: 100%; min-width: 560px; }
+th, td { text-align: left; padding: 11px 16px; border-top: 1px solid var(--line); vertical-align: top; font-size: 15px; }
+thead th { border-top: 0; background: var(--brand-soft); font: 600 12px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td .mono { font-size: 14px; }
+
+.twocol { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.panel h3 { font: 600 17px var(--f-body); }
+.panel ul { margin: 0; padding-left: 20px; display: grid; gap: 7px; font-size: 15px; }
+.panel li::marker { color: var(--brand); }
+
+/* цифры */
+.nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.num { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 2px; }
+.num b { font: 700 28px/1.1 var(--f-display); color: var(--brand); font-variant-numeric: tabular-nums; }
+.num span { color: var(--muted); font-size: 14px; }
+
+/* хронология */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.timeline li { display: grid; grid-template-columns: 4.2em 5.4em minmax(0, 1fr); gap: 12px; padding: 10px 18px; border-top: 1px solid var(--line); align-items: baseline; }
+.timeline li:first-child { border-top: 0; }
+.timeline .r { font: 700 14px var(--f-mono); color: var(--brand); }
+.timeline .d { font: 500 13px var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.timeline .t { font-size: 15px; }
+
+footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80ch; display: grid; gap: 6px; }
+
+@media (max-width: 760px) {
+  .about { grid-template-columns: minmax(0, 1fr); }
+  .timeline li { grid-template-columns: 3.4em minmax(0, 1fr); }
+  .timeline .d { grid-column: 2; grid-row: 2; }
+  .timeline .t { grid-column: 2; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  nav.toc a, .btn { transition: border-color .15s, filter .15s; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Склад Подольск · распределительный центр</span>
+    <h1>Программа учёта склада</h1>
+    <p class="lead"><b>Каждое движение товара — скан и запись в журнале.</b> Приёмка, размещение, перемещение и инвентаризация идут через ТСД, и остатки в программе совпадают с тем, что лежит на полках.</p>
+    <div class="cta">
+      <a class="btn primary" href="training/">Учебник для сотрудников</a>
+      <a class="btn ghost" href="#tech">Как устроено</a>
+    </div>
+    <nav class="toc" aria-label="Разделы">
+      <a href="#about">О программе</a>
+      <a href="#blocks">Что работает</a>
+      <a href="#tech">Как устроено</a>
+      <a href="#numbers">Цифры</a>
+      <a href="#history">Хронология</a>
+    </nav>
+  </header>
+
+  <!-- ================= О ПРОГРАММЕ ================= -->
+  <section id="about">
+    <div class="head">
+      <span class="kicker">О программе</span>
+      <h2>Зачем складу своя программа</h2>
+    </div>
+    <div class="about">
+      <div class="prose">
+        <p>Раньше большая часть операций на складе шла мимо учёта: товар перекладывали без записи, остатки сверяли пересчётами. Программа ведёт каждую единицу товара от приёмки до отгрузки: в какой ячейке она лежит, с каким сроком годности, кто и когда её переместил.</p>
+        <p>Это исполнительный слой рядом с учётной системой. Учётные остатки и документы остаются в МойСкладе, а затем в 1С:ERP. Программа отвечает за то, что происходит физически: ячейки, задачи, сканы, сроки годности, коды «Честного знака» на операциях, производительность. Третьего источника остатков она не создаёт.</p>
+        <p>Работает на ТСД Honeywell прямо в браузере, без установки из магазина приложений. Старший смены видит склад на компьютере: карту ячеек, сроки, ход инвентаризации.</p>
+      </div>
+      <aside class="goals" aria-label="Цели склада">
+        <h3>Цели склада, под которые сделана программа</h3>
+        <div class="goal"><span>Операции в учёте</span><b>100 %</b></div>
+        <div class="goal"><span>Точность учёта остатков</span><b>&gt; 99,5 %</b></div>
+        <div class="goal"><span>Цикл FBS: заказ → передан в ТК</span><b>&lt; 18 ч</b></div>
+        <div class="goal"><span>OTIF — вовремя и полностью</span><b>&gt; 98 %</b></div>
+        <small>Сейчас в учёте около 20 % операций, точность и цикл не измеряются.</small>
+      </aside>
+    </div>
+    <div class="principles">
+      <div class="principle"><h3>Каждое движение — скан</h3><p>Ячейка, товар, количество. Без скана товар для программы остаётся на старом месте.</p></div>
+      <div class="principle"><h3>Журнал, а не правки</h3><p>Записи только добавляются. Ошибку исправляют новой операцией, история видна целиком.</p></div>
+      <div class="principle"><h3>Работает без Wi-Fi</h3><p>Операции копятся в ТСД и уходят сами, когда сеть вернётся. Двойного учёта не будет.</p></div>
+      <div class="principle"><h3>Сроки — у каждой партии</h3><p>Партия хранит «годен до» и дату изготовления. Первым уходит то, что раньше истекает.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= ЧТО РАБОТАЕТ ================= -->
+  <section id="blocks">
+    <div class="head">
+      <span class="kicker">Блоки программы</span>
+      <h2>Что уже работает</h2>
+      <p>Состояние на 9 октября 2026. Работающие блоки выложены на рабочий сервер.</p>
+    </div>
+    <div class="legend">
+      <span><span class="st on">работает</span> в рабочей программе</span>
+      <span><span class="st wait">готово</span> код есть, ждёт решения</span>
+      <span><span class="st plan">в планах</span> следующие этапы</span>
+    </div>
+    <div class="blocks">
+      <article class="block"><div class="block-top"><h3>Вход и устройства</h3><span class="st on">работает</span></div><span class="where">ТСД · компьютер</span><p>Вход по бейджу и PIN. Каждый ТСД привязан к складу своим кодом. Роли: кладовщик, старший смены, администратор.</p></article>
+      <article class="block"><div class="block-top"><h3>Приёмка</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>Приёмка коробами: число коробов × кратность. Даты с упаковки на каждую партию. Коды «Честного знака». Расхождения с планом уходят в акт.</p></article>
+      <article class="block"><div class="block-top"><h3>Поставки из МойСклада</h3><span class="st on">работает</span></div><span class="where">автоматически</span><p>Непроведённые приёмки склада подтягиваются каждые 5 минут, Альнилам — сверху. Видно, что документ уже проведён, удалён или перенесён на другой склад.</p></article>
+      <article class="block"><div class="block-top"><h3>Размещение с подсказкой</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>После приёмки — задачи на размещение. ТСД подсказывает ячейку: к той же партии, к тому же товару, потом свободную по маршруту.</p></article>
+      <article class="block"><div class="block-top"><h3>Перемещение и карантин</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>Из ячейки в ячейку тремя сканами, с выбором партии по сроку. Брак, пересорт, проблемы с ЧЗ — в зону карантина с причиной.</p></article>
+      <article class="block"><div class="block-top"><h3>Партии и сроки годности</h3><span class="st on">работает</span></div><span class="where">ТСД · компьютер</span><p>Партия по сроку, подсказка «брать первой». Отчёт «истекает / просрочено». Списание по партии делает старший смены.</p></article>
+      <article class="block"><div class="block-top"><h3>Инвентаризация</h3><span class="st on">работает</span></div><span class="where">ТСД · компьютер</span><p>Слепой счёт: учётного количества не видно. Счёт коробами и целыми паллетами, ряды закрепляются за сотрудниками, повторный счёт при расхождении, неизвестный товар. Сверка, проводка, опись, сравнение с МойСкладом.</p></article>
+      <article class="block"><div class="block-top"><h3>Работа без Wi-Fi</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>Очередь операций на устройстве. Отправка по порядку при появлении сети, повтор не задваивает остаток. Каталог товаров хранится на ТСД.</p></article>
+      <article class="block"><div class="block-top"><h3>Карта склада</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Зоны и ячейки, что где лежит и до какого срока, кто и когда двигал товар. Остатки на любой момент в прошлом, выгрузка в Excel.</p></article>
+      <article class="block"><div class="block-top"><h3>Клиенты и остаточный срок</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Требования сетей к остаточному сроку годности (ОСГ). На карте склада видно, какие партии подходят клиенту.</p></article>
+      <article class="block"><div class="block-top"><h3>Этикетки ячеек</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Печать этикеток со штрихкодом на термопринтер 58×40 или на лист A4: зона, ряд, секция, ярус, место.</p></article>
+      <article class="block"><div class="block-top"><h3>Администрирование</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Сотрудники, роли, PIN, ТСД. Уволенный сотрудник уходит в архив, его история операций сохраняется.</p></article>
+    </div>
+    <h3 class="subhead">Дальше</h3>
+    <div class="blocks next">
+      <article class="block"><div class="block-top"><h3>Учебный стенд</h3><span class="st wait">готово</span></div><span class="where">отдельный сервер</span><p>Отдельная база с учебными данными и кнопкой сброса, чтобы учиться, не трогая рабочий учёт. Программа готова, базу для стенда ещё не создали.</p></article>
+      <article class="block planned"><div class="block-top"><h3>Пополнение FBS и отбор</h3><span class="st plan">в планах</span></div><span class="where">этап 2</span><p>Задачи на пополнение зоны FBS из хранения, отбор по сроку годности.</p></article>
+      <article class="block planned"><div class="block-top"><h3>Отгрузки</h3><span class="st plan">в планах</span></div><span class="where">этапы 2–3</span><p>Паллетные отгрузки на маркетплейсы и в сети, маркировка паллет SSCC, документы, передача в ТК.</p></article>
+      <article class="block planned"><div class="block-top"><h3>Факт приёмки в учётную систему</h3><span class="st plan">в планах</span></div><span class="where">интеграция</span><p>Проводить приёмку в МойСкладе, а затем в 1С:ERP только по факту скана на складе.</p></article>
+    </div>
+  </section>
+
+  <!-- ================= КАК УСТРОЕНО ================= -->
+  <section id="tech">
+    <div class="head">
+      <span class="kicker">Техническое описание</span>
+      <h2>Как устроена программа</h2>
+      <p>Три части: приложение на ТСД, сервер с правилами учёта и база данных. МойСклад читается по расписанию, в него программа ничего не пишет.</p>
+    </div>
+
+    <div class="diagram" role="img" aria-label="Схема: ТСД и компьютер обращаются к серверу, сервер работает с базой; МойСклад попадает в базу через синхронизацию по расписанию">
+      <div class="flow">
+        <div class="node"><b>ТСД</b><small>Honeywell EDA61K<br>приложение в Chrome</small></div>
+        <div class="arrow span2">→</div>
+        <div class="node core span2"><b>Сервер</b><small>правила учёта, вход,<br>проверка операций</small></div>
+        <div class="arrow span2">→</div>
+        <div class="node core span2"><b>База данных</b><small>журнал движений,<br>остатки, справочники</small></div>
+        <div class="node"><b>Компьютер</b><small>старший смены<br>в браузере</small></div>
+        <div class="node"><b>МойСклад</b><small>только чтение</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Синхронизация</b><small>по расписанию:<br>5 мин · 30 мин · 1 ч · сутки</small></div>
+        <div class="arrow">→</div>
+        <div class="node core"><b>та же база</b><small>товары, поставки,<br>остатки для сверки</small></div>
+      </div>
+      <p>Приложение на ТСД работает и без сети: операции ждут в очереди на устройстве и уходят на сервер, когда связь вернётся.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Часть</th><th>Технология</th><th>Почему так</th></tr></thead>
+        <tbody>
+          <tr><td>ТСД</td><td>Веб-приложение (PWA) на Preact и Vite</td><td>Ставится с главного экрана без магазина приложений, обновляется само, лёгкое для ТСД, хранит очередь и каталог в IndexedDB.</td></tr>
+          <tr><td>Сервер</td><td>Node.js 22, Fastify, TypeScript, Zod</td><td>Один язык с приложением ТСД. Каждый запрос проверяется по схеме до того, как дойдёт до учёта.</td></tr>
+          <tr><td>База</td><td>PostgreSQL (Supabase)</td><td>Правила учёта держит сама база: транзакции и триггеры не дают остатку уйти в минус и не дают править журнал.</td></tr>
+          <tr><td>Синхронизация</td><td>Функция на Deno в Supabase, расписание pg_cron</td><td>Читает МойСклад по расписанию. Перечитывает только изменившиеся документы.</td></tr>
+          <tr><td>Размещение</td><td>Render (сервер), Supabase (база), GitHub (код)</td><td>Рабочий сервер обновляется только из ветки выпуска — по команде руководителя.</td></tr>
+          <tr><td>Проверка</td><td>Vitest на настоящем PostgreSQL, Deno test, Playwright</td><td>Правила остатков проверяются в той же базе, где они работают. Сценарии ТСД прогоняются в браузере на экране 360×640.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="twocol">
+      <div class="panel">
+        <h3>Как хранятся данные</h3>
+        <ul>
+          <li>Остаток меняется только событием в журнале движений. Журнал только дописывается: изменить или удалить запись нельзя, это запрещено в самой базе.</li>
+          <li>Остаток по ячейке и партии — проекция журнала, её пересчитывает база в той же транзакции. В минус уйти не может.</li>
+          <li>Партия — это товар с конкретным сроком годности. Остатки с разными сроками не смешиваются.</li>
+          <li>У каждой операции с ТСД свой идентификатор и время скана. Повтор из очереди возвращает уже записанный результат.</li>
+          <li>Излишки и недостачи — только через инвентаризацию, с причиной и номером инвентаризации.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Безопасность</h3>
+        <ul>
+          <li>Вход по бейджу и PIN. PIN хранится только в виде хеша, после 5 ошибок вход закрывается на 10 минут.</li>
+          <li>ТСД привязывается к складу одноразовым кодом. Смена длится 12 часов, операции из очереди принимаются ещё 72 часа.</li>
+          <li>Прямого доступа к базе снаружи нет: всё идёт через сервер с проверкой прав.</li>
+          <li>Пароли и ключи хранятся только в панелях серверов, в коде их нет.</li>
+          <li>В МойСклад программа ничего не пишет. Паспортные данные водителей и физических лиц не хранит.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Из МойСклада</th><th>Как часто</th><th>Что получает склад</th></tr></thead>
+        <tbody>
+          <tr><td>Непроведённые приёмки</td><td class="mono">каждые 5 мин</td><td>Ожидаемые поставки на ТСД с планом по товарам; статус документа в МойСкладе.</td></tr>
+          <tr><td>Товары</td><td class="mono">каждые 30 мин</td><td>Артикулы, штрихкоды, кратность короба, срок годности, признак маркировки.</td></tr>
+          <tr><td>Клиенты</td><td class="mono">каждый час</td><td>Сети и маркетплейсы с требованиями к остаточному сроку.</td></tr>
+          <tr><td>Остатки</td><td class="mono">раз в сутки</td><td>Снимок для сверки с фактом инвентаризации.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= ЦИФРЫ ================= -->
+  <section id="numbers">
+    <div class="head">
+      <span class="kicker">Что написано</span>
+      <h2>Программа в цифрах</h2>
+      <p>С 1 по 9 октября 2026.</p>
+    </div>
+    <div class="nums">
+      <div class="num"><b>12</b><span>экранов: 8 на ТСД, 4 на компьютере</span></div>
+      <div class="num"><b>69</b><span>методов сервера</span></div>
+      <div class="num"><b>18</b><span>изменений схемы базы</span></div>
+      <div class="num"><b>186</b><span>автотестов: 127 сервер, 42 ТСД, 17 синхронизация</span></div>
+      <div class="num"><b>≈10,5 тыс.</b><span>строк кода: сервер, ТСД, синхронизация</span></div>
+      <div class="num"><b>18</b><span>архитектурных решений</span></div>
+    </div>
+  </section>
+
+  <!-- ================= ХРОНОЛОГИЯ ================= -->
+  <section id="history">
+    <div class="head">
+      <span class="kicker">Решения по порядку</span>
+      <h2>Хронология</h2>
+    </div>
+    <ol class="timeline">
+      <li><span class="r">Р1</span><span class="d">02.10</span><span class="t">Роль программы: исполнительный слой рядом с МойСкладом и 1С:ERP</span></li>
+      <li><span class="r">Р2</span><span class="d">02.10</span><span class="t">Стек утверждён: PostgreSQL, TypeScript, приложение для ТСД в браузере</span></li>
+      <li><span class="r">Р3</span><span class="d">01–02.10</span><span class="t">Журнал движений — единственный способ изменить остаток</span></li>
+      <li><span class="r">Р4</span><span class="d">01–02.10</span><span class="t">Идентификатор у каждой операции, работа без сети</span></li>
+      <li><span class="r">Р5</span><span class="d">01–02.10</span><span class="t">Приёмка: сравнение с планом и акт расхождений</span></li>
+      <li><span class="r">Р6</span><span class="d">01–02.10</span><span class="t">Безопасность: секреты вне кода, база закрыта снаружи</span></li>
+      <li><span class="r">Р7</span><span class="d">02.10</span><span class="t">Приложение для ТСД: очередь операций, слепой пересчёт</span></li>
+      <li><span class="r">Р8</span><span class="d">06.10</span><span class="t">Ответы склада: ячейки из файла склада, приёмка коробами, сроки годности</span></li>
+      <li><span class="r">Р9</span><span class="d">07.10</span><span class="t">Загрузка товаров, поставок и остатков из МойСклада</span></li>
+      <li><span class="r">Р10</span><span class="d">07.10</span><span class="t">Пилот на ТСД: вход по PIN, привязка устройств, рабочий сервер</span></li>
+      <li><span class="r">Р11</span><span class="d">07.10</span><span class="t">Экран «Склад» для компьютера</span></li>
+      <li><span class="r">Р12</span><span class="d">07.10</span><span class="t">Инвентаризация: слепой счёт, повторный счёт, сверка и проводка</span></li>
+      <li><span class="r">Р13</span><span class="d">08.10</span><span class="t">Партионный учёт: выбор партии, списание, отчёт по срокам</span></li>
+      <li><span class="r">Р14</span><span class="d">08.10</span><span class="t">Клиенты и требования к остаточному сроку годности</span></li>
+      <li><span class="r">Р15</span><span class="d">08.10</span><span class="t">Точный срок годности партии: «годен до» и дата изготовления</span></li>
+      <li><span class="r">Р16</span><span class="d">08.10</span><span class="t">Доработки перед первой инвентаризацией: счёт коробами, распределение работы, неизвестный товар</span></li>
+      <li><span class="r">Р17</span><span class="d">09.10</span><span class="t">Поставки из МойСклада каждые 5 минут</span></li>
+      <li><span class="r">Р18</span><span class="d">09.10</span><span class="t">Подсказка «куда положить» при размещении</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>Страница о программе для сотрудников и партнёров склада Подольск. Данных склада здесь нет: программа работает на ТСД и компьютерах склада по входу сотрудника.</p>
+    <p>Обновлено 9 октября 2026 · <a href="training/">Учебник для сотрудников</a></p>
+  </footer>
+</div>
+</body>
+</html>
