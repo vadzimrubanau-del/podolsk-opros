@@ -1,7 +1,9 @@
 "use strict";
 
 const URG_TEXT = { "А": "Срочно: блокирует этап 1", "Б": "До этапа 2", "В": "До этапов 3–4" };
+// Раздел вопроса: section (если задан, например «chz») или группа ответственных grp.
 const GROUPS = [
+  { key: "chz", title: "Честный знак: маркировка", who: "логисты Подольска; кто ещё знает ответ — в строке «Зачем»" },
   { key: "lead", title: "Руководство" },
   { key: "floor", title: "Начальники смен и склад" },
   { key: "log", title: "Логисты" },
@@ -309,13 +311,13 @@ function render() {
   const sel = ae && typeof ae.selectionStart === "number" ? [ae.selectionStart, ae.selectionEnd, ae.scrollTop, ae.value] : null;
   const nodes = [];
   for (const G of GROUPS) {
-    const qs = state.questions.filter((Q) => Q.grp === G.key).filter((Q) => {
+    const qs = state.questions.filter((Q) => (Q.section || Q.grp) === G.key).filter((Q) => {
       if (state.filter === "all") return true;
       if (state.filter === "urgent") return Q.urgency === "А";
       return qState(Q.id) === state.filter;
     });
     if (!qs.length) continue;
-    nodes.push(el("h2", { class: "group" }, G.title, el("small", { text: state.groupWho[G.key] || "" })));
+    nodes.push(el("h2", { class: "group" }, G.title, el("small", { text: state.groupWho[G.key] || G.who || "" })));
     for (const Q of qs) nodes.push(card(Q));
   }
   if (!nodes.length) nodes.push(el("p", { class: "lead", text: "В этом фильтре вопросов нет." }));
