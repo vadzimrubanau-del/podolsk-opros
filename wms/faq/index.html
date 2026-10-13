@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Частые вопросы по программе склада Подольск: ТСД, приёмка, размещение, инвентаризация, сборка заказов, старший смены, логист.">
+<meta name="color-scheme" content="light dark">
+<title>Вопросы и ответы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Golos+Text:wght@400;600;700&family=JetBrains+Mono:wght@600;700&display=swap">
+<style>
+/* Частые вопросы: короткий ответ на каждый. Тот же стиль, что у памяток и учебника. */
+:root {
+  --bg: #f2f4f7; --surface: #ffffff; --ink: #142033; --muted: #586478; --line: #d5dbe4;
+  --brand: #1d3557; --brand-soft: #e4ebf5; --signal: #b45f00; --signal-soft: #fff1d9; --bad: #b42318;
+  --f-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1520; --surface: #161f2d; --ink: #e6ebf2; --muted: #9ba7b9; --line: #2a3648;
+    --brand: #9cbbe6; --brand-soft: #1d2a3d; --signal: #f2b04a; --signal-soft: #33260f; --bad: #f08b80;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1520; --surface: #161f2d; --ink: #e6ebf2; --muted: #9ba7b9; --line: #2a3648;
+  --brand: #9cbbe6; --brand-soft: #1d2a3d; --signal: #f2b04a; --signal-soft: #33260f; --bad: #f08b80;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.5 var(--f-body); }
+.wrap { max-width: 980px; margin: 0 auto; padding: 20px 16px 40px; display: grid; gap: 14px; }
+header { display: grid; gap: 4px; }
+.eyebrow { font: 600 13px var(--f-mono); color: var(--muted); letter-spacing: .02em; }
+h1 { margin: 0; font: 700 clamp(24px, 4.4vw, 34px)/1.15 var(--f-display); color: var(--brand); }
+.sub { margin: 0; color: var(--muted); }
+.rule { margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--signal-soft); font-weight: 600; }
+.rule b { color: var(--signal); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
+section { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+h2 { margin: 0 0 6px; font: 700 17px/1.25 var(--f-body); color: var(--brand); display: flex; gap: 8px; align-items: baseline; }
+h2 .n { font: 700 13px var(--f-mono); color: var(--muted); }
+ol, ul { margin: 0; padding-left: 20px; display: grid; gap: 3px; }
+p { margin: 0; }
+.mono { font-family: var(--f-mono); font-size: .92em; }
+.k { display: inline-block; padding: 0 6px; border-radius: 6px; background: var(--brand-soft); font-weight: 600; white-space: nowrap; }
+.note { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.stop { border-color: var(--bad); }
+.stop h2 { color: var(--bad); }
+footer { color: var(--muted); font-size: 13px; }
+@media print {
+  @page { size: A4; margin: 9mm; }
+  body { background: #fff; color: #000; font-size: 10pt; line-height: 1.3; }
+  .wrap { max-width: none; padding: 0; gap: 8px; }
+  h1 { font-size: 20pt; color: #000; }
+  section { break-inside: avoid; padding: 7px 10px; border-color: #999; margin-bottom: 7px; }
+  .grid { display: block; columns: 2; column-gap: 8px; }
+  .rule { background: #f3f3f3; }
+  .k { background: #eee; }
+}
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.toc a { display: inline-block; padding: 8px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--brand); font-weight: 600; text-decoration: none; }
+.toc a:hover { border-color: var(--brand); }
+.wrap { grid-template-columns: minmax(0, 1fr); }
+.qa { display: grid; gap: 10px; }
+.q .k { white-space: normal; }
+.qa h2 { font-size: 19px; margin: 6px 0 0; }
+.q { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 4px; }
+.q h3 { margin: 0; font: 700 16px/1.3 var(--f-body); }
+.q p { color: var(--ink); }
+a { color: var(--brand); }
+@media print { .toc { display: none; } .q { break-inside: avoid; padding: 6px 10px; border-color: #999; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Склад Подольск · программа склада</span>
+    <h1>Вопросы и ответы</h1>
+    <p class="sub">Короткие ответы на то, что чаще всего спрашивают в первые смены. Не нашли ответ — спросите старшего смены или предложите улучшение: в меню «💡 Предложить улучшение».</p>
+  </header>
+
+  <ul class="toc">
+    <li><a href="#tsd">Всем на ТСД</a></li>
+    <li><a href="#receive">Приёмка</a></li>
+    <li><a href="#putaway">Размещение и перемещение</a></li>
+    <li><a href="#inventory">Инвентаризация</a></li>
+    <li><a href="#pick">Сборка заказов</a></li>
+    <li><a href="#lead">Старшему смены</a></li>
+    <li><a href="#logist">Логисту</a></li>
+  </ul>
+
+  <section class="qa" id="tsd" style="background:none;border:0;padding:0">
+    <h2>Всем на ТСД</h2>
+      <div class="q"><h3>Как предложить улучшение?</h3><p>Меню → <span class="k">💡 Предложить улучшение</span> (на компьютере — та же кнопка вверху экрана). Где неудобно, что мешает, как было бы лучше и как часто — можно с фото. Ошибки — отдельно: <span class="k">Сообщить об ошибке</span>.</p></div>
+      <div class="q"><h3>Что будет с моим предложением?</h3><p>Каждое утро руководитель разбирает предложения за прошлый день. В «Мои предложения» видно: «на рассмотрении», «одобрено — делаем», «сделано» или «отклонено» с ответом. Сделанное появится в «Что нового».</p></div>
+      <div class="q"><h3>Что значит значок справа вверху?</h3><p><span class="k">✓</span> — всё, что вы сделали, записано на сервере. <span class="k">↑ 3</span> — три операции ждут сети и уйдут сами: ТСД не выключайте. <span class="k">! 1</span> — сервер не принял операцию: под шапкой красная полоса, нажмите её — там причина и что делать.</p></div>
+      <div class="q"><h3>Пропал Wi-Fi. Что делать?</h3><p>Работайте дальше: операции сохраняются в ТСД и уходят сами, когда сеть вернётся. Пока значок не стал ✓, не выключайте ТСД и не завершайте смену. Без сети нельзя войти в смену и закрыть приёмку — подойдите ближе к точке Wi-Fi.</p></div>
+      <div class="q"><h3>Значок Wi-Fi на ТСД есть, а программа пишет «Сервер программы не отвечает».</h3><p>ТСД сам пробует подключиться каждые 15 секунд. Нажмите <span class="k">Проверить связь</span> — программа покажет, где обрыв: нет Wi-Fi, Wi-Fi без интернета или интернет есть, а сервер недоступен из сети склада. Не проходит 10 минут — покажите этот экран старшему смены.</p></div>
+      <div class="q"><h3>Отсканировал не тот товар.</h3><p>Пока не нажали «Принять», «Разместить» или «Собрано», ничего не записано — просто отсканируйте нужный товар. После записи — скажите старшему смены.</p></div>
+      <div class="q"><h3>Ошибся в количестве.</h3><p>До записи — нажмите на количество и наберите заново: первая цифра заменяет старое число. После «Записано» — исправляет старший смены (перемещением, пересчётом или списанием). В сборке — нажмите строку товара → «Убрать».</p></div>
+      <div class="q"><h3>«Товар не найден».</h3><p>В меню нажмите <span class="k">Обновить каталог</span> и отсканируйте ещё раз. Не помогло: в инвентаризации — <span class="k">Неизвестный товар</span>, в остальных операциях отложите товар и позовите старшего смены.</p></div>
+      <div class="q"><h3>Нажал системную кнопку «Назад».</h3><p>Она работает как ← в шапке: закрывает окно или возвращает на шаг назад. Отправленное и стоящее в очереди сохраняется.</p></div>
+      <div class="q"><h3>Сканер пищит, а на экране ничего.</h3><p>В меню — <span class="k">Проверка сканера</span>, отсканируйте любую этикетку и покажите экран старшему: по нему видно, что не так с настройкой. Пока — <span class="k">⌨</span> рядом с полем и наберите код вручную.</p></div>
+      <div class="q"><h3>Забыл PIN или «Слишком много ошибок».</h3><p>После пяти ошибок вход закрыт на 10 минут. Подождите или попросите старшего смены задать новый PIN.</p></div>
+      <div class="q"><h3>Вверху синяя полоса «Вышла новая версия программы».</h3><p>Нажмите <span class="k">Обновить</span>, когда значок показывает ✓. Неотправленное не пропадёт, но лучше обновляться после отправки.</p></div>
+      <div class="q"><h3>На ТСД работает другой сотрудник.</h3><p>Перед своим входом попросите его нажать <span class="k">Завершить смену</span>. Если его операции ещё в очереди, ТСД напишет «Операции сотрудника … ждут его входа» — они уйдут, когда он войдёт снова. Ваши операции это не задерживает.</p></div>
+  </section>
+
+  <section class="qa" id="receive" style="background:none;border:0;padding:0">
+    <h2>Приёмка</h2>
+      <div class="q"><h3>На коробе только «EXP 08/2028».</h3><p>Нажмите <span class="k">мес/год</span> и наберите 0828: программа поставит последний день месяца.</p></div>
+      <div class="q"><h3>Есть дата изготовления и «годен 36 мес».</h3><p>Введите дату изготовления и «Срок на упаковке, мес.» — «Годен до» посчитается сам.</p></div>
+      <div class="q"><h3>На коробе нет даты совсем.</h3><p><span class="k">Нет даты на упаковке</span>. Партия запишется без срока. Дата есть, но не читается — позовите старшего смены.</p></div>
+      <div class="q"><h3>Ещё один такой же короб.</h3><p>Просто отсканируйте его ещё раз: +1 короб. Много коробов сразу — нажмите на количество и наберите число.</p></div>
+      <div class="q"><h3>Товара нет в поставке.</h3><p>ТСД спросит. Не уверены — <span class="k">Не принимать</span> и позовите старшего смены. <span class="k">Принять как лишний</span> — только если старший сказал.</p></div>
+      <div class="q"><h3>Приняли не всё, а машина уехала.</h3><p><span class="k">Закрыть приёмку</span>: ТСД покажет, чего не хватает. Недостача уйдёт в акт. После закрытия по этой поставке принимать нельзя.</p></div>
+  </section>
+
+  <section class="qa" id="putaway" style="background:none;border:0;padding:0">
+    <h2>Размещение и перемещение</h2>
+      <div class="q"><h3>В подсказанной ячейке нет места.</h3><p>Положите в любую свободную ячейку хранения и отсканируйте её этикетку. ТСД отметит «не по подсказке» — это нормально.</p></div>
+      <div class="q"><h3>Разместил часть.</h3><p>Остаток задачи останется в списке, его можно разместить позже или другому сотруднику.</p></div>
+      <div class="q"><h3>Брак или бой.</h3><p><span class="k">Перемещение</span> → <span class="k">Карантин</span> → ячейка зоны I (например, I-01) → причина. Списывает старший смены.</p></div>
+      <div class="q"><h3>«Ячейку сейчас считают».</h3><p>В ячейке идёт инвентаризация, её содержимое не показывается. Подождите конца пересчёта или положите в другую ячейку.</p></div>
+  </section>
+
+  <section class="qa" id="inventory" style="background:none;border:0;padding:0">
+    <h2>Инвентаризация</h2>
+      <div class="q"><h3>Кнопка «до 31.01.2028» под датами.</h3><p>Это срок, который уже встречался у этого товара. Она только подставляет дату — сверьте с коробом и нажмите «Дальше: количество».</p></div>
+      <div class="q"><h3>Тот же товар, но другой срок.</h3><p><span class="k">Этот же товар с другим сроком</span> — будет отдельная строка.</p></div>
+      <div class="q"><h3>Сбился и хочу начать ячейку заново.</h3><p>Внизу <span class="k">Ещё ▾</span> → <span class="k">Начать ячейку заново</span>. Не успеваете — <span class="k">Отложить ячейку</span>: её сможет посчитать другой.</p></div>
+      <div class="q"><h3>Ячейку не посчитать: заставлена, нет доступа.</h3><p><span class="k">Не могу посчитать — пропустить</span> и выберите причину.</p></div>
+  </section>
+
+  <section class="qa" id="pick" style="background:none;border:0;padding:0">
+    <h2>Сборка заказов</h2>
+      <div class="q"><h3>Сканировать каждый короб?</h3><p>Нет. Один скан — ТСД сразу подставит, сколько осталось собрать. Собрали меньше — наберите число коробов и штук.</p></div>
+      <div class="q"><h3>Где лежит товар для заказа?</h3><p>В окне количества — строка «Где лежит»: ячейки и сроки, первой — с ближайшим сроком. Или меню → «Склад» → скан товара.</p></div>
+      <div class="q"><h3>«Этого товара нет в заказе», а название похожее.</h3><p>Сверьте артикул: lmb42 и lmb42_T2 (в упаковке для маркетплейса) — разные карточки.</p></div>
+      <div class="q"><h3>Открыл не тот заказ.</h3><p>Вернитесь к списку ←. Если ничего не собрали, заказ снова общий. Начали собирать — скажите старшему смены.</p></div>
+      <div class="q"><h3>Заказ собирает другой, а мне нужно.</h3><p>Серый заказ взять нельзя. Попросите старшего смены передать его вам.</p></div>
+      <div class="q"><h3>В заказе комплект, его не отсканировать.</h3><p>Строка «не из каталога ТСД» собирается вручную по заказу. «Заказ собран» → «Завершить с расхождениями» и скажите старшему.</p></div>
+  </section>
+
+  <section class="qa" id="lead" style="background:none;border:0;padding:0">
+    <h2>Старшему смены</h2>
+      <div class="q"><h3>Как привязать компьютер?</h3><p>«Администрирование» → «ТСД» → имя вроде PC-01 → <span class="k">Добавить и показать код</span>. На компьютере откройте адрес программы и вставьте код из-под QR в поле привязки. Дальше вход своим кодом и PIN.</p></div>
+      <div class="q"><h3>Нажал «Новый код привязки» — ТСД перестал пускать.</h3><p>Новый код сразу отвязывает старый. Отсканируйте новый QR на этом ТСД. Без нужды код не меняйте.</p></div>
+      <div class="q"><h3>На ТСД сотрудника «! 1».</h3><p>Нажмите красную полосу: в очереди причина и что делать. Исправьте на складе (пересчёт ячейки, другая ячейка) и удалите операцию из очереди.</p></div>
+      <div class="q"><h3>Кладовщик ошибся после «Записано».</h3><p>Операции не удаляются — исправляет новая: перемещение, пересчёт ячейки или списание с причиной.</p></div>
+      <div class="q"><h3>Открыл на ТСД чужой заказ.</h3><p>ТСД спросит: <span class="k">Забрать себе</span> или <span class="k">Только посмотреть</span>. Забрать — заказ станет вашим, у сборщика он посереет.</p></div>
+      <div class="q"><h3>Как выгрузить ленту операций в Excel?</h3><p>«Контроль склада» → «Лента операций»: выберите сотрудника и вид операций (или «Все»), период «с … по …» → <span class="k">Выгрузить в Excel</span>. Файл открывается в Excel двойным щелчком: дата, время, сотрудник, ТСД, операция, товар, количество, откуда, куда, документ. Период — до 92 дней.</p></div>
+      <div class="q"><h3>Заказ собран по ошибке.</h3><p>«Контроль склада» → «Сборка заказов» → <span class="k">Вернуть в сборку</span>.</p></div>
+  </section>
+
+  <section class="qa" id="logist" style="background:none;border:0;padding:0">
+    <h2>Логисту</h2>
+      <div class="q"><h3>Программа просит ключ администратора.</h3><p>Вы не вошли. Нажмите «Войти кодом и PIN» (или откройте адрес без #/… в конце) и войдите своим кодом.</p></div>
+      <div class="q"><h3>Где собранные заказы, которым нужен статус в МойСкладе?</h3><p>Меню → <span class="k">Сборка заказов (просмотр)</span> → <span class="k">Собраны — статус в МС</span>. В заказе — подсказка: «Заказ собран на складе» или «… частично». Поставили статус в МойСкладе — заказ уйдёт из списка.</p></div>
+      <div class="q"><h3>Почему заказ не появился на сборке?</h3><p>В МойСкладе у заказа должен быть статус «СБОР» и склад «Амариста - Подольск». Программа проверяет раз в 5 минут. Заказы маркетплейсов сюда не попадают.</p></div>
+      <div class="q"><h3>Можно поменять требования клиента к сроку?</h3><p>Логист видит их в «Клиентах», меняет старший смены или администратор.</p></div>
+  </section>
+
+  <footer>Памятки: <a href="../kladovshik/">кладовщика</a> · <a href="../sborka/">сборка заказов</a> · <a href="../starshiy/">старшего смены</a> · <a href="../logist/">логиста</a> · <a href="../training/">учебник с экранами</a> · <a href="../changes/">что нового</a>.</footer>
+</div>
+</body>
+</html>
