@@ -196,7 +196,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
     <span class="eyebrow">Склад Подольск · программа учёта на ТСД</span>
     <h1>Как работать на ТСД</h1>
     <p class="lead">Письмо для всех сотрудников и пошаговые экраны: приёмка, размещение, перемещение, инвентаризация. Экраны сняты на учебной приёмке — так их и увидите на своём ТСД.</p>
-    <p class="lead">Коротко, на одну страницу: <a href="../kladovshik/">памятка кладовщика</a> · <a href="../logist/">памятка логиста</a>.</p>
+    <p class="lead">Коротко, на одну страницу: <a href="../kladovshik/">памятка кладовщика</a> · <a href="../logist/">памятка логиста</a> · <a href="../starshiy/">памятка старшего смены</a>.</p>
     <nav class="toc" aria-label="Разделы">
       <a href="#letter">Письмо</a>
       <a href="#first">Первый запуск</a>
@@ -288,7 +288,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
     <div class="steps">
       <figure class="step">
         <div class="phone"><div class="screen"><img src="shots/01-login-badge.png" alt="Экран входа: поле «Отсканируйте бейдж»" loading="lazy"></div></div>
-        <figcaption><span class="n">1</span><h3>Отсканируйте свой бейдж</h3><p>Нет бейджа — нажмите ⌨ и наберите код сотрудника.</p></figcaption>
+        <figcaption><span class="n">1</span><h3>Отсканируйте свой бейдж</h3><p>Бейдж со штрихкодом печатает старший смены. Нет бейджа — нажмите ⌨, наберите код сотрудника и Enter.</p></figcaption>
       </figure>
       <figure class="step">
         <div class="phone"><div class="screen"><img src="shots/02-login-pin.png" alt="Ввод PIN на экранной клавиатуре" loading="lazy"></div></div>
@@ -355,7 +355,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
     <div class="steps">
       <figure class="step">
         <div class="phone"><div class="screen"><img src="shots/12-putaway-list.png" alt="Список задач размещения" loading="lazy"></div></div>
-        <figcaption><span class="n">1</span><h3>Выберите задачу</h3><p>В строке — артикул, сколько осталось разместить и откуда брать.</p></figcaption>
+        <figcaption><span class="n">1</span><h3>Выберите задачу</h3><p>Сверху — задания, которые старший смены выдал вам, потом общие. Выданные другим — серые, их не взять. В строке — артикул, сколько осталось разместить и откуда брать. Открыли задание — оно записано на вас; вернулись к списку, ничего не разместив, — снова общее.</p></figcaption>
       </figure>
       <figure class="step">
         <div class="phone"><div class="screen"><img src="shots/13-putaway-suggest.png" alt="Подсказка: первая ячейка с той же партией" loading="lazy"></div></div>
@@ -502,9 +502,17 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
     <div class="op-head">
       <span class="path">Компьютер старшего смены</span>
       <h2>Что видит старший смены</h2>
-      <p>Всё, что сделано на ТСД, сразу видно на компьютере.</p>
+      <p>Всё, что сделано на ТСД, сразу видно на компьютере. Коротко по шагам — <a href="../starshiy/">памятка старшего смены</a>.</p>
     </div>
     <div class="desk">
+      <figure>
+        <div class="monitor"><img src="shots/32-desk-control.png" alt="Экран «Контроль склада»: кто на смене, задания на размещение" loading="lazy"></div>
+        <figcaption>«Контроль склада»: кто на смене, на каком ТСД и когда последний раз был в программе, чем занят, последняя операция. Задания на размещение — кому выдано, когда, начато ли; выдать задание — выбрать сотрудника в строке. Ниже приёмки (план и факт, строки, закрыть приёмку), инвентаризация, итоги дня и лента всех операций. Страница обновляется сама.</figcaption>
+      </figure>
+      <figure>
+        <div class="monitor"><img src="shots/33-desk-admin-badge.png" alt="Администрирование: сотрудник добавлен, штрихкод бейджа" loading="lazy"></div>
+        <figcaption>«Администрирование» → «Сотрудники»: код сотрудника латиницей — штрихкод появляется сразу. «Напечатать бейдж» — карточка на A4, «Бейджи: файл для принтера TSC» — этикетки 58×40. Забыл PIN — «Изменить» в строке сотрудника, новый PIN.</figcaption>
+      </figure>
       <figure>
         <div class="monitor"><img src="shots/30-desk-warehouse.png" alt="Экран «Склад»: карта зоны B и карточка ячейки" loading="lazy"></div>
         <figcaption>«Склад»: карта зоны, занятые ячейки, сроки. Клик по ячейке — что лежит, до какого срока, кто и когда положил. Вверху поиск по артикулу или штрихкоду и панель «Сроки».</figcaption>

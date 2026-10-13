@@ -186,6 +186,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
     <div class="cta">
       <a class="btn primary" href="kladovshik/">Памятка кладовщика</a>
       <a class="btn primary" href="logist/">Памятка логиста</a>
+      <a class="btn primary" href="starshiy/">Памятка старшего смены</a>
       <a class="btn ghost" href="training/">Учебник с экранами</a>
       <a class="btn ghost" href="#tech">Как устроено</a>
     </div>
@@ -240,7 +241,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <span><span class="st plan">в планах</span> следующие этапы</span>
     </div>
     <div class="blocks">
-      <article class="block"><div class="block-top"><h3>Вход и устройства</h3><span class="st on">работает</span></div><span class="where">ТСД · компьютер</span><p>Вход по бейджу и PIN. Каждый ТСД привязан к складу своим кодом. Роли: кладовщик, старший смены, администратор.</p></article>
+      <article class="block"><div class="block-top"><h3>Вход и устройства</h3><span class="st on">работает</span></div><span class="where">ТСД · компьютер</span><p>Вход по бейджу и PIN. Каждый ТСД привязан к складу своим кодом. Роли: кладовщик, старший смены, логист, администратор.</p></article>
       <article class="block"><div class="block-top"><h3>Приёмка</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>Приёмка коробами: число коробов × кратность. Даты с упаковки на каждую партию. Коды «Честного знака». Расхождения с планом уходят в акт.</p></article>
       <article class="block"><div class="block-top"><h3>Поставки из МойСклада</h3><span class="st on">работает</span></div><span class="where">автоматически</span><p>Непроведённые приёмки склада подтягиваются каждые 5 минут, Альнилам — сверху. Видно, что документ уже проведён, удалён или перенесён на другой склад.</p></article>
       <article class="block"><div class="block-top"><h3>Размещение с подсказкой</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>После приёмки — задачи на размещение. ТСД подсказывает ячейку: к той же партии, к тому же товару, потом свободную по маршруту.</p></article>
@@ -251,12 +252,13 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <article class="block"><div class="block-top"><h3>Карта склада</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Зоны и ячейки, что где лежит и до какого срока, кто и когда двигал товар. Остатки на любой момент в прошлом, выгрузка в Excel.</p></article>
       <article class="block"><div class="block-top"><h3>Клиенты и остаточный срок</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Требования сетей к остаточному сроку годности (ОСГ). На карте склада видно, какие партии подходят клиенту.</p></article>
       <article class="block"><div class="block-top"><h3>Этикетки ячеек</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Печать этикеток со штрихкодом на термопринтер 58×40 или на лист A4: зона, ряд, секция, ярус, место.</p></article>
-      <article class="block"><div class="block-top"><h3>Администрирование</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Сотрудники, роли, PIN, ТСД. Уволенный сотрудник уходит в архив, его история операций сохраняется.</p></article>
+      <article class="block"><div class="block-top"><h3>Контроль склада</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Кто на смене, на каком ТСД и чем занят. Задания на размещение: кому выдано, когда, начато ли; старший выдаёт задания сотрудникам. Приёмки план/факт, инвентаризация, итоги дня, лента всех операций.</p></article>
+      <article class="block"><div class="block-top"><h3>Администрирование</h3><span class="st on">работает</span></div><span class="where">компьютер</span><p>Сотрудники, роли, ТСД. Бейдж со штрихкодом сразу при заведении сотрудника, печать на A4 или термопринтер. Новый PIN, если забыл. Уволенный сотрудник уходит в архив, его история операций сохраняется.</p></article>
     </div>
     <h3 class="subhead">Дальше</h3>
     <div class="blocks next">
       <article class="block"><div class="block-top"><h3>Учебный стенд</h3><span class="st wait">готово</span></div><span class="where">отдельный сервер</span><p>Отдельная база с учебными данными и кнопкой сброса, чтобы учиться, не трогая рабочий учёт. Программа готова, базу для стенда ещё не создали.</p></article>
-      <article class="block planned"><div class="block-top"><h3>Пополнение FBS и отбор</h3><span class="st plan">в планах</span></div><span class="where">этап 2</span><p>Задачи на пополнение зоны FBS из хранения, отбор по сроку годности.</p></article>
+      <article class="block planned"><div class="block-top"><h3>Сборка заказов и пополнение FBS</h3><span class="st plan">в планах</span></div><span class="where">этап 2</span><p>Заказы на сборку, отбор по сроку годности с выдачей заданий сборщикам, пополнение зоны FBS из хранения.</p></article>
       <article class="block planned"><div class="block-top"><h3>Отгрузки</h3><span class="st plan">в планах</span></div><span class="where">этапы 2–3</span><p>Паллетные отгрузки на маркетплейсы и в сети, маркировка паллет SSCC, документы, передача в ТК.</p></article>
       <article class="block planned"><div class="block-top"><h3>Факт приёмки в учётную систему</h3><span class="st plan">в планах</span></div><span class="where">интеграция</span><p>Проводить приёмку в МойСкладе, а затем в 1С:ERP только по факту скана на складе.</p></article>
     </div>
@@ -342,15 +344,15 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
     <div class="head">
       <span class="kicker">Что написано</span>
       <h2>Программа в цифрах</h2>
-      <p>С 1 по 9 октября 2026.</p>
+      <p>С 1 по 13 октября 2026.</p>
     </div>
     <div class="nums">
-      <div class="num"><b>12</b><span>экранов: 8 на ТСД, 4 на компьютере</span></div>
-      <div class="num"><b>69</b><span>методов сервера</span></div>
-      <div class="num"><b>18</b><span>изменений схемы базы</span></div>
-      <div class="num"><b>186</b><span>автотестов: 127 сервер, 42 ТСД, 17 синхронизация</span></div>
-      <div class="num"><b>≈10,5 тыс.</b><span>строк кода: сервер, ТСД, синхронизация</span></div>
-      <div class="num"><b>18</b><span>архитектурных решений</span></div>
+      <div class="num"><b>14</b><span>экранов: 9 на ТСД, 5 на компьютере</span></div>
+      <div class="num"><b>75</b><span>методов сервера</span></div>
+      <div class="num"><b>19</b><span>изменений схемы базы</span></div>
+      <div class="num"><b>225</b><span>автотестов: 147 сервер, 61 ТСД, 17 синхронизация</span></div>
+      <div class="num"><b>≈11,9 тыс.</b><span>строк кода: сервер, ТСД, синхронизация</span></div>
+      <div class="num"><b>19</b><span>архитектурных решений</span></div>
     </div>
   </section>
 
@@ -379,12 +381,13 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <li><span class="r">Р16</span><span class="d">08.10</span><span class="t">Доработки перед первой инвентаризацией: счёт коробами, распределение работы, неизвестный товар</span></li>
       <li><span class="r">Р17</span><span class="d">09.10</span><span class="t">Поставки из МойСклада каждые 5 минут</span></li>
       <li><span class="r">Р18</span><span class="d">09.10</span><span class="t">Подсказка «куда положить» при размещении</span></li>
+      <li><span class="r">Р19</span><span class="d">13.10</span><span class="t">Контроль склада для старшего смены, выдача заданий, бейджи со штрихкодом</span></li>
     </ol>
   </section>
 
   <footer>
     <p>Страница о программе для сотрудников и партнёров склада Подольск. Данных склада здесь нет: программа работает на ТСД и компьютерах склада по входу сотрудника.</p>
-    <p>Обновлено 9 октября 2026 · <a href="training/">Учебник для сотрудников</a></p>
+    <p>Обновлено 13 октября 2026 · <a href="training/">Учебник для сотрудников</a></p>
   </footer>
 </div>
 </body>
