@@ -207,6 +207,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <a href="#move">Перемещение</a>
       <a href="#inventory">Инвентаризация</a>
       <a href="#endshift">Конец смены</a>
+      <a href="#find">Найти товар</a>
       <a href="#trouble">Если что-то не так</a>
       <a href="#desk">Компьютер старшего</a>
     </nav>
@@ -478,6 +479,24 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
   </section>
 
   <!-- ================= ЕСЛИ ЧТО-ТО НЕ ТАК ================= -->
+  <section id="find" class="op">
+    <div class="op-head">
+      <span class="path">Меню → Склад · Меню → Сообщить о проблеме или предложить</span>
+      <h2>Найти товар и сообщить о проблеме</h2>
+      <p>Где лежит товар — сканом, прямо на карте склада. Что-то не работает или есть идея — сообщение старшему смены с фото.</p>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/40-warehouse-found.png" alt="«Склад»: найденная ячейка в зелёной рамке" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Скан товара на «Складе»</h3><p>Меню → «Склад» → отсканируйте товар. Карта сама перейдёт к нужной зоне, ячейка с товаром — в зелёной рамке. Выше — «Где лежит»: ячейки и сроки, первая — с ближайшим сроком. Скан этикетки ячейки открывает эту ячейку. Остальные настройки — «☰ Ещё».</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/41-feedback.png" alt="Обратная связь: текст и фото" loading="lazy"></div></div>
+        <figcaption><span class="n">2</span><h3>Сообщить о проблеме или предложить</h3><p>Выберите «Проблема или ошибка» или «Предложение», опишите, что случилось, и добавьте фото с камеры. Без сети сообщение уйдёт само. Ответ старшего смены — ниже, в «Мои сообщения».</p><span class="scroll-hint">↕ экран листается</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section id="trouble" class="op">
     <div class="op-head">
       <h2>Если что-то не так</h2>
@@ -493,6 +512,8 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <div class="trow"><span class="say">Значок <code>! 1</code></span><span class="do">Сервер не принял операцию. Откройте очередь, прочитайте причину и позовите старшего смены.</span></div>
       <div class="trow"><span class="say">Ошиблись в количестве</span><span class="do">До отправки — кнопки − и + или нажмите на число. После «Записано» — скажите старшему: он исправит перемещением или пересчётом.</span></div>
       <div class="trow"><span class="say">Сканер пищит, а на экране ничего</span><span class="do">На экране входа или в меню нажмите «Проверка сканера» и отсканируйте этикетку. Снимок этого экрана покажите старшему смены: по нему видно, что не так с настройкой сканера.</span></div>
+      <div class="trow"><span class="say">Не знаю, где лежит товар</span><span class="do">Меню → «Склад» → отсканируйте товар: карта покажет ячейки. Ячейки, которые сейчас считают, не показываются.</span></div>
+      <div class="trow"><span class="say">Программа делает что-то не так или есть идея</span><span class="do">Меню → «Сообщить о проблеме или предложить», можно с фото. На компьютере — кнопка «Обратная связь» вверху экрана.</span></div>
       <div class="trow"><span class="say">Сканер не читает этикетку</span><span class="do">Нажмите ⌨ рядом с полем и наберите код вручную. Повреждённую этикетку покажите старшему для перепечатки.</span></div>
     </div>
   </section>
