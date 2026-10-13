@@ -196,7 +196,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
     <span class="eyebrow">Склад Подольск · программа учёта на ТСД</span>
     <h1>Как работать на ТСД</h1>
     <p class="lead">Письмо для всех сотрудников и пошаговые экраны: приёмка, размещение, перемещение, инвентаризация. Экраны сняты на учебной приёмке — так их и увидите на своём ТСД.</p>
-    <p class="lead">Коротко, на одну страницу: <a href="../kladovshik/">памятка кладовщика</a> · <a href="../logist/">памятка логиста</a> · <a href="../starshiy/">памятка старшего смены</a>.</p>
+    <p class="lead">Коротко, на одну страницу: <a href="../kladovshik/">памятка кладовщика</a> · <a href="../sborka/">сборка заказов</a> · <a href="../logist/">памятка логиста</a> · <a href="../starshiy/">памятка старшего смены</a>. Что поменялось в программе — <a href="../changes/">«Что нового»</a>.</p>
     <nav class="toc" aria-label="Разделы">
       <a href="#letter">Письмо</a>
       <a href="#first">Первый запуск</a>
@@ -206,6 +206,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <a href="#offline">Без Wi-Fi</a>
       <a href="#move">Перемещение</a>
       <a href="#inventory">Инвентаризация</a>
+      <a href="#pick">Сборка заказа</a>
       <a href="#endshift">Конец смены</a>
       <a href="#find">Найти товар</a>
       <a href="#trouble">Если что-то не так</a>
@@ -465,6 +466,40 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
   </section>
 
   <!-- ================= КОНЕЦ СМЕНЫ ================= -->
+  <section id="pick" class="op">
+    <div class="op-head">
+      <span class="path">Меню → Сборка заказов</span>
+      <h2>Сборка заказа</h2>
+      <p>Заказы покупателей со статусом «СБОР» в МойСкладе. Как в инвентаризации: скан товара — число коробов и штук сверху. Коротко — <a href="../sborka/">памятка «Сборка заказов»</a>.</p>
+    </div>
+    <div class="steps">
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/50-pick-list.png" alt="Список заказов на сборку" loading="lazy"></div></div>
+        <figcaption><span class="n">1</span><h3>Выберите заказ</h3><p>Сверху — заказ с самой ранней датой отгрузки: красным — просрочен, оранжевым — отгрузка сегодня. «Только сети» — только сетевые заказы. Нажмите заказ — он записывается на вас; заказ, который собирает другой, серый.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/51-pick-order.png" alt="Заказ: строки товаров" loading="lazy"></div></div>
+        <figcaption><span class="n">2</span><h3>Строки заказа</h3><p>Под каждым товаром — сколько нужно коробами и сколько уже собрано. Собранные строки зелёные с ✓ и уходят вниз. Отсканируйте первый товар.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/52-pick-qty.png" alt="Количество: коробов и штук" loading="lazy"></div></div>
+        <figcaption><span class="n">3</span><h3>Коробов и штук</h3><p>Наберите число полных коробов. Штуки сверху — нажмите поле «штук» и наберите их. Внизу итог: «2 кор. × 12 = 24 шт» → «Собрано».</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/53-pick-over.png" alt="Больше, чем в заказе" loading="lazy"></div></div>
+        <figcaption><span class="n">4</span><h3>Больше, чем в заказе</h3><p>ТСД предупредит, если собрано больше, чем заказано. Лишнее не кладите. Если так и есть — «Записать всё равно». Товар не из заказа ТСД не запишет: «Этого товара нет в заказе».</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/54-pick-undo.png" alt="Убрать из собранного" loading="lazy"></div></div>
+        <figcaption><span class="n">5</span><h3>Ошиблись — убрать</h3><p>Нажмите на строку товара и наберите, сколько убрать → «Убрать». Количество в строке уменьшится.</p></figcaption>
+      </figure>
+      <figure class="step">
+        <div class="phone"><div class="screen"><img src="shots/55-pick-finish.png" alt="Заказ собран: расхождения" loading="lazy"></div></div>
+        <figcaption><span class="n">6</span><h3>Заказ собран</h3><p>«Заказ собран» — ТСД покажет, чего не хватает и что лишнее. Проверьте ещё раз; найти нельзя — «Завершить с расхождениями» и скажите старшему. Статус в МойСкладе ставит логист.</p></figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section id="endshift" class="op">
     <div class="op-head">
       <span class="path">Меню → внизу</span>
@@ -529,6 +564,10 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <figure>
         <div class="monitor"><img src="shots/32-desk-control.png" alt="Экран «Контроль склада»: кто на смене, задания на размещение" loading="lazy"></div>
         <figcaption>«Контроль склада»: кто на смене, на каком ТСД и когда последний раз был в программе, чем занят, последняя операция. Задания на размещение — кому выдано, когда, начато ли; выдать задание — выбрать сотрудника в строке. Ниже приёмки (план и факт, строки, закрыть приёмку), инвентаризация, итоги дня и лента всех операций. Страница обновляется сама.</figcaption>
+      </figure>
+      <figure>
+        <div class="monitor"><img src="shots/34-desk-pick.png" alt="«Контроль склада»: сборка заказов" loading="lazy"></div>
+        <figcaption>«Контроль склада» → «Сборка заказов»: какие заказы ждут, кто собирает, сколько строк и штук собрано. «Строки» — заказано, собрано, разница по каждому товару. Выдать заказ сборщику — выбрать сотрудника в строке. Собранный заказ можно «Вернуть в сборку». У собранного заказа — подсказка логисту, какой статус поставить в МойСкладе.</figcaption>
       </figure>
       <figure>
         <div class="monitor"><img src="shots/33-desk-admin-badge.png" alt="Администрирование: сотрудник добавлен, штрихкод бейджа" loading="lazy"></div>

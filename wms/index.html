@@ -187,6 +187,8 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <a class="btn primary" href="kladovshik/">Памятка кладовщика</a>
       <a class="btn primary" href="logist/">Памятка логиста</a>
       <a class="btn primary" href="starshiy/">Памятка старшего смены</a>
+      <a class="btn primary" href="sborka/">Памятка «Сборка заказов»</a>
+      <a class="btn ghost" href="changes/">Что нового</a>
       <a class="btn ghost" href="training/">Учебник с экранами</a>
       <a class="btn ghost" href="#tech">Как устроено</a>
     </div>
@@ -196,6 +198,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <a href="#tech">Как устроено</a>
       <a href="#numbers">Цифры</a>
       <a href="#history">Хронология</a>
+      <a href="changes/">Что нового</a>
     </nav>
   </header>
 
@@ -246,6 +249,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <article class="block"><div class="block-top"><h3>Поставки из МойСклада</h3><span class="st on">работает</span></div><span class="where">автоматически</span><p>Непроведённые приёмки склада подтягиваются каждые 5 минут, Альнилам — сверху. Видно, что документ уже проведён, удалён или перенесён на другой склад.</p></article>
       <article class="block"><div class="block-top"><h3>Размещение с подсказкой</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>После приёмки — задачи на размещение. ТСД подсказывает ячейку: к той же партии, к тому же товару, потом свободную по маршруту.</p></article>
       <article class="block"><div class="block-top"><h3>Перемещение и карантин</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>Из ячейки в ячейку тремя сканами, с выбором партии по сроку. Брак, пересорт, проблемы с ЧЗ — в зону карантина с причиной.</p></article>
+      <article class="block"><div class="block-top"><h3>Сборка заказов</h3><span class="st on">работает</span></div><span class="where">ТСД · компьютер</span><p>Заказы покупателей со статусом «СБОР» из МойСклада, сверху — самая ранняя плановая дата отгрузки, сети отдельно. Скан товара — коробов и штук, сверка с заказом: недостача, лишнее, товар не из заказа. Старший выдаёт заказы и видит ход сборки. Пока без ячеек: остатки не меняются.</p></article>
       <article class="block"><div class="block-top"><h3>Партии и сроки годности</h3><span class="st on">работает</span></div><span class="where">ТСД · компьютер</span><p>Партия по сроку, подсказка «брать первой». Отчёт «истекает / просрочено». Списание по партии делает старший смены.</p></article>
       <article class="block"><div class="block-top"><h3>Инвентаризация</h3><span class="st on">работает</span></div><span class="where">ТСД · компьютер</span><p>Слепой счёт: учётного количества не видно. Счёт коробами и целыми паллетами, ряды закрепляются за сотрудниками, повторный счёт при расхождении, неизвестный товар. Сверка, проводка, опись, сравнение с МойСкладом.</p></article>
       <article class="block"><div class="block-top"><h3>Работа без Wi-Fi</h3><span class="st on">работает</span></div><span class="where">ТСД</span><p>Очередь операций на устройстве. Отправка по порядку при появлении сети, повтор не задваивает остаток. Каталог товаров хранится на ТСД.</p></article>
@@ -259,7 +263,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
     <h3 class="subhead">Дальше</h3>
     <div class="blocks next">
       <article class="block"><div class="block-top"><h3>Учебный стенд</h3><span class="st wait">готово</span></div><span class="where">отдельный сервер</span><p>Отдельная база с учебными данными и кнопкой сброса, чтобы учиться, не трогая рабочий учёт. Программа готова, базу для стенда ещё не создали.</p></article>
-      <article class="block planned"><div class="block-top"><h3>Сборка заказов и пополнение FBS</h3><span class="st plan">в планах</span></div><span class="where">этап 2</span><p>Заказы на сборку, отбор по сроку годности, ABC/XYZ-размещение ближе к упаковке, волновая сборка с раскладкой по заказам, пополнение зоны FBS из хранения.</p></article>
+      <article class="block planned"><div class="block-top"><h3>Отбор из ячеек и пополнение FBS</h3><span class="st plan">в планах</span></div><span class="where">этап 2</span><p>Сборка со сканом ячейки и списанием по сроку годности (после стартовой инвентаризации), ABC/XYZ-размещение ближе к упаковке, волновая сборка с раскладкой по заказам, пополнение зоны FBS из хранения.</p></article>
       <article class="block planned"><div class="block-top"><h3>Отгрузки</h3><span class="st plan">в планах</span></div><span class="where">этапы 2–3</span><p>Паллетные отгрузки на маркетплейсы и в сети, маркировка паллет SSCC, документы, передача в ТК.</p></article>
       <article class="block planned"><div class="block-top"><h3>Факт приёмки в учётную систему</h3><span class="st plan">в планах</span></div><span class="where">интеграция</span><p>Проводить приёмку в МойСкладе, а затем в 1С:ERP только по факту скана на складе.</p></article>
     </div>
@@ -332,6 +336,7 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
         <thead><tr><th>Из МойСклада</th><th>Как часто</th><th>Что получает склад</th></tr></thead>
         <tbody>
           <tr><td>Непроведённые приёмки</td><td class="mono">каждые 5 мин</td><td>Ожидаемые поставки на ТСД с планом по товарам; статус документа в МойСкладе.</td></tr>
+          <tr><td>Заказы покупателей «СБОР»</td><td class="mono">каждые 5 мин</td><td>Заказы на сборку для склада Подольска со строками, плановой датой отгрузки и типом отгрузки. Имена покупателей-физлиц не хранятся.</td></tr>
           <tr><td>Товары</td><td class="mono">каждые 30 мин</td><td>Артикулы, штрихкоды, кратность короба, срок годности, признак маркировки.</td></tr>
           <tr><td>Клиенты</td><td class="mono">каждый час</td><td>Сети и маркетплейсы с требованиями к остаточному сроку.</td></tr>
           <tr><td>Остатки</td><td class="mono">раз в сутки</td><td>Снимок для сверки с фактом инвентаризации.</td></tr>
@@ -348,12 +353,12 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <p>С 1 по 13 октября 2026.</p>
     </div>
     <div class="nums">
-      <div class="num"><b>15</b><span>экранов: 10 на ТСД, 5 на компьютере</span></div>
-      <div class="num"><b>80</b><span>методов сервера</span></div>
-      <div class="num"><b>20</b><span>изменений схемы базы</span></div>
-      <div class="num"><b>236</b><span>автотестов: 156 сервер, 63 ТСД, 17 синхронизация</span></div>
-      <div class="num"><b>≈12,5 тыс.</b><span>строк кода: сервер, ТСД, синхронизация</span></div>
-      <div class="num"><b>20</b><span>архитектурных решений</span></div>
+      <div class="num"><b>16</b><span>экранов: 11 на ТСД, 5 на компьютере</span></div>
+      <div class="num"><b>88</b><span>методов сервера</span></div>
+      <div class="num"><b>21</b><span>изменение схемы базы</span></div>
+      <div class="num"><b>262</b><span>автотеста: 172 сервер, 69 ТСД, 21 синхронизация</span></div>
+      <div class="num"><b>≈13,4 тыс.</b><span>строк кода: сервер, ТСД, синхронизация</span></div>
+      <div class="num"><b>21</b><span>архитектурное решение</span></div>
     </div>
   </section>
 
@@ -384,12 +389,13 @@ footer { padding-top: 48px; color: var(--muted); font-size: 14px; max-width: 80c
       <li><span class="r">Р18</span><span class="d">09.10</span><span class="t">Подсказка «куда положить» при размещении</span></li>
       <li><span class="r">Р19</span><span class="d">13.10</span><span class="t">Контроль склада для старшего смены, выдача заданий, бейджи со штрихкодом</span></li>
       <li><span class="r">Р20</span><span class="d">13.10</span><span class="t">«Склад» на ТСД: поиск сканом, слепой счёт на карте; обратная связь с фото</span></li>
+      <li><span class="r">Р21</span><span class="d">13.10</span><span class="t">Сборка заказов «СБОР» на ТСД: скан, коробы и штуки, сверка с заказом; журнал изменений после каждой выкладки</span></li>
     </ol>
   </section>
 
   <footer>
     <p>Страница о программе для сотрудников и партнёров склада Подольск. Данных склада здесь нет: программа работает на ТСД и компьютерах склада по входу сотрудника.</p>
-    <p>Обновлено 13 октября 2026 · <a href="training/">Учебник для сотрудников</a></p>
+    <p>Обновлено 13 октября 2026 · <a href="training/">Учебник для сотрудников</a> · <a href="changes/">Что нового в программе</a></p>
   </footer>
 </div>
 </body>
