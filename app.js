@@ -3,6 +3,7 @@
 const URG_TEXT = { "А": "Срочно: блокирует этап 1", "Б": "До этапа 2", "В": "До этапов 3–4" };
 // Раздел вопроса: section (если задан, например «chz») или группа ответственных grp.
 const GROUPS = [
+  { key: "r1610", title: "Уточнения 16.10: нужно для доработки программы", who: "кто знает ответ — в строке «Зачем»" },
   { key: "chz", title: "Честный знак: маркировка", who: "логисты Подольска; кто ещё знает ответ — в строке «Зачем»" },
   { key: "lead", title: "Руководство" },
   { key: "floor", title: "Начальники смен и склад" },
@@ -96,7 +97,13 @@ async function refresh() {
   for (const f of data.files) (state.files[f.question_id] ||= []).push(f);
   state.syncedAt = new Date().toISOString();
   render();
+  // Прямая ссылка на раздел (…/#r1610): один раз после первой загрузки, в том числе после ввода кода.
+  if (!hashShown && location.hash.length > 1) {
+    const n = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (n) { hashShown = true; n.scrollIntoView({ block: "start" }); }
+  }
 }
+let hashShown = false;
 
 async function safeRefresh() {
   try { await refresh(); setStatus("", ""); } catch (e) { if (e.status !== 401) setStatus("err", e.message); }
@@ -317,7 +324,7 @@ function render() {
       return qState(Q.id) === state.filter;
     });
     if (!qs.length) continue;
-    nodes.push(el("h2", { class: "group" }, G.title, el("small", { text: state.groupWho[G.key] || G.who || "" })));
+    nodes.push(el("h2", { class: "group", id: G.key }, G.title, el("small", { text: state.groupWho[G.key] || G.who || "" })));
     for (const Q of qs) nodes.push(card(Q));
   }
   if (!nodes.length) nodes.push(el("p", { class: "lead", text: "В этом фильтре вопросов нет." }));
